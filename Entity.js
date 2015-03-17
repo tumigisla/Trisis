@@ -1,3 +1,5 @@
+// Trisis
+
 // Common methods and attributes for all shapes.
 
 // Add this.image when using.
@@ -28,15 +30,11 @@ Entity.prototype.useTexture = function() {
 Entity.prototype.useBuffers = function() {
     // points
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vBufferId);
-    var vPosition = gl.getAttribLocation(program, "vPosition");
     gl.vertexAttribPointer(vPosition, 3, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(vPosition);
 
     // textures
     gl.bindBuffer(gl.ARRAY_BUFFER, this.tBufferId);
-    var vTexCoord = gl.getAttribLocation(program, "vTexCoord");
     gl.vertexAttribPointer(vTexCoord, 2, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(vTexCoord);
 
 };
 
@@ -45,8 +43,8 @@ Entity.prototype.drawArrays = function(ctm, i, n) {
     gl.drawArrays(gl.TRIANGLES, i, n);
 };
 
-Entity.prototype.render = function(ctm) {
+Entity.prototype.render = function(mv) {
 	this.useTexture();
     this.useBuffers();
-    this.drawArrays(ctm, 0, this.numVertices);
+    this.drawArrays(mv, 0, this.numVertices);
 };

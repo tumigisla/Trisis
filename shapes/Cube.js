@@ -15,7 +15,7 @@
 
 function Cube(descr) {
     for(var property in descr)
-        this[property] = this[property];
+        this[property] = descr[property];
 
     this.numVertices = 36; // Faces * Vertices per face(6 here -> 2 triangle per face)
 }

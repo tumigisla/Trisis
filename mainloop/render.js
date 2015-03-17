@@ -1,3 +1,3 @@
 var render = function() {
-	renderSimulation();
+    renderSimulation();
 };
