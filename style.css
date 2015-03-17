@@ -1,0 +1,14 @@
+body {
+	background-color : #7e7c7c;
+	font-family: 'Raleway', sans-serif;
+}
+
+#masterWrapper {
+	margin : 0 auto;
+	max-width : 1100px;
+}
+
+#gl-canvas {
+	border-radius : 10px/30px;
+    box-shadow: 10px 10px 5px #888888;
+}
