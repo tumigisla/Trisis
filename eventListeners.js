@@ -24,11 +24,29 @@ var addEventListeners = function() {
     // Event listener for keyboard
      window.addEventListener("keydown", function(e){
          switch( e.keyCode ) {
+
+            // x-movement
+            case 37:    // left arrow
+                crntCubeTransl[0] -= 0.4;
+                translUpdate[0][0] = true;
+                e.preventDefault();
+                break;
+            case 39:    // right arrow
+                crntCubeTransl[0] += 0.4;
+                translUpdate[0][1] = true;
+                e.preventDefault();
+                break;
+
+            // z-movement    
             case 38:    // up arrow
-                zDist += 0.1;
+                crntCubeTransl[1] -= 0.4;
+                translUpdate[1][0] = true;
+                e.preventDefault();
                 break;
             case 40:    // down arrow
-                zDist -= 0.1;
+                crntCubeTransl[1] += 0.4;
+                translUpdate[1][1] = true;
+                e.preventDefault();
                 break;
 
             // Rotations of the current cube.
