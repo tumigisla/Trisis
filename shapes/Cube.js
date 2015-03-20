@@ -18,23 +18,29 @@ function Cube(descr) {
         this[property] = descr[property];
 
     this.numVertices = 36; // Faces * Vertices per face(6 here -> 2 triangle per face)
+
+    this.height = 0.5;
+
+    this.image = textureImgs[0];
+
+    this.build();
 }
 
 Cube.prototype = new Entity();
 
 Cube.prototype.quad = function(a, b, c, d) {
-
+    
     var vert = [
-        vec3( -0.5, -0.5,  0.5 ),
-        vec3( -0.5,  0.5,  0.5 ),
-        vec3(  0.5,  0.5,  0.5 ),
-        vec3(  0.5, -0.5,  0.5 ),
-        vec3( -0.5, -0.5, -0.5 ),
-        vec3( -0.5,  0.5, -0.5 ),
-        vec3(  0.5,  0.5, -0.5 ),
-        vec3(  0.5, -0.5, -0.5 )
+        vec3( -0.2, -0.2,  0.2 ),
+        vec3( -0.2,  0.2,  0.2 ),
+        vec3(  0.2,  0.2,  0.2 ),
+        vec3(  0.2, -0.2,  0.2 ),
+        vec3( -0.2, -0.2, -0.2 ),
+        vec3( -0.2,  0.2, -0.2 ),
+        vec3(  0.2,  0.2, -0.2 ),
+        vec3(  0.2, -0.2, -0.2 )
     ];
-
+    
     var texCo = [
         vec2(0, 0),
         vec2(0, 1),

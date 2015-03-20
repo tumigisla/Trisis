@@ -38,6 +38,11 @@ var util = {
 	    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
 	    
 	    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
+	},
+
+	// True or False
+	coinFlip : function() {
+		return Math.random() > 0.5;
 	}
 
 };

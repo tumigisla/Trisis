@@ -45,7 +45,7 @@ Entity.prototype.drawArrays = function(ctm, i, n) {
 
 Entity.prototype.render = function(mv) {
 	// Make this scaling more general
-	mv = mult(mv, util.scale4(0.5, 0.5, 0.5));
+	// mv = mult(mv, util.scale4(0.5, 0.5, 0.5));
 
 	this.useTexture();
     this.useBuffers();

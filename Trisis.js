@@ -15,7 +15,7 @@ var vPosition, vTexCoord;
 
 var textureImgs = [];
 
-var cube;
+var triomino;
 
 // Setup the necessities
 var setup = function() {
@@ -30,9 +30,9 @@ var setup = function() {
     gl.enable(gl.DEPTH_TEST);
 
     // Test cube
-    cube = new Cube({image : textureImgs[0]});
-    cube.build();
-    cube.loadToGPU();
+    triomino = new Triomino();
+    triomino.build();
+    triomino.cube.loadToGPU();
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
@@ -68,7 +68,7 @@ var renderSimulation = function() {
     mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
     mv = mult( mv, rotate( parseFloat(spinY), [0, 1, 0] ) );
     
-    cube.render(mv);
+    triomino.render(mv);
 };
 
 // Start the game
