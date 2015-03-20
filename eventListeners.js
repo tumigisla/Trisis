@@ -1,6 +1,6 @@
 var addEventListeners = function() {
 
-	// Event listeners for mouse
+    // Event listeners for mouse
     canvas.addEventListener("mousedown", function(e){
         movement = true;
         origX = e.offsetX;
@@ -30,6 +30,29 @@ var addEventListeners = function() {
             case 40:    // down arrow
                 zDist -= 0.1;
                 break;
+
+            // Rotations of the current cube.
+            // x-axis
+            case 65:    // a
+                crntCubeRotation[0] += 90;
+                break;
+            case 90:    // z
+                crntCubeRotation[0] -= 90;
+                break;
+            //y-axis
+            case 83:    // s
+                crntCubeRotation[1] += 90;
+                break;
+            case 88:    // x
+                crntCubeRotation[1] -= 90;
+                break;
+            // z-axis
+            case 68:    // d
+                crntCubeRotation[2] += 90;
+                break;
+            case 67:    // c
+                crntCubeRotation[2] -= 90;
+                break;
          }
      }  );
 
@@ -43,5 +66,4 @@ var addEventListeners = function() {
              zDist -= 0.1;
          }
      }  );
-	
 };

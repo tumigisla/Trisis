@@ -17,6 +17,8 @@ var textureImgs = [];
 
 var triomino;
 
+var crntCubeRotation = [0, 0, 0];
+
 // Setup the necessities
 var setup = function() {
     canvas = document.getElementById("gl-canvas");
