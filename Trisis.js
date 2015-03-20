@@ -18,6 +18,7 @@ var textureImgs = [];
 var triomino;
 
 var crntCubeRotation = [0, 0, 0];
+var rotationUpdate = [[false, false], [false, false], [false, false]];
 
 // Setup the necessities
 var setup = function() {
@@ -61,6 +62,7 @@ var loadTextures = function() {
 ///////////////////////////////////
 var updateSimulation = function(du) {
     // update
+    triomino.update(du);
 };
 
 var renderSimulation = function() {

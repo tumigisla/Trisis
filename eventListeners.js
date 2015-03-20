@@ -35,23 +35,29 @@ var addEventListeners = function() {
             // x-axis
             case 65:    // a
                 crntCubeRotation[0] += 90;
+                rotationUpdate[0][0] = true;
                 break;
             case 90:    // z
                 crntCubeRotation[0] -= 90;
+                rotationUpdate[0][1] = true;
                 break;
             //y-axis
             case 83:    // s
                 crntCubeRotation[1] += 90;
+                rotationUpdate[1][0] = true;
                 break;
             case 88:    // x
                 crntCubeRotation[1] -= 90;
+                rotationUpdate[1][1] = true;
                 break;
             // z-axis
             case 68:    // d
                 crntCubeRotation[2] += 90;
+                rotationUpdate[2][0] = true;
                 break;
             case 67:    // c
                 crntCubeRotation[2] -= 90;
+                rotationUpdate[2][1] = true;
                 break;
          }
      }  );
