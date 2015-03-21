@@ -24,7 +24,9 @@ var addEventListeners = function() {
     // Event listeners for keyboard
      window.addEventListener("keydown", function(e){
         keys[e.keyCode] = true; 
-        e.preventDefault();
+
+        if (e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40)
+            e.preventDefault();
      });
 
      window.addEventListener("keyup", function(e) {
