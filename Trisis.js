@@ -7,7 +7,7 @@ var spinY = 0;
 var origX;
 var origY;
 
-var zDist = 5.0;
+var zDist = 10.0;
 
 var proLoc, mvLoc;
 
@@ -28,6 +28,8 @@ var translDecisions = translDec.ver0;
 
 var availAxisTransl = [true, true],     // [x, z]
     availAxisRot = [true, true, true];
+
+var crntDrop = 0.0;
 
 var keys = [];
 

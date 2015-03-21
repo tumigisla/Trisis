@@ -162,4 +162,22 @@ var checkKeyInputs = function() {
         rotationUpdate[2][1] = true;
         availAxisRot[2] = false;
     }
+
+
+    // Drop
+    if (eatKey(76)) // L button
+        triomino.isDropping = !triomino.isDropping;
+
+    // Init dropping
+    if (eatKey(73)) { // i button
+        crntDrop = 0.0;
+        triomino.isDropping = false;
+    }    
 };
+
+
+function eatKey(keyCode) {
+    var isDown = keys[keyCode];
+    keys[keyCode] = false;
+    return isDown;
+}
