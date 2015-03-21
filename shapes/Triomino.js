@@ -32,14 +32,18 @@ Triomino.prototype.update = function(du) {
         if (rotationUpdate[i][0]) { // increasing
             if (this.rotations[i] < crntCubeRotation[i])
                 this.rotations[i] += (90 / this.ROT_UPDATE_STEPS) * du;
-            else
+            else {
                 rotationUpdate[i][0] = false;
+                availAxisRot[i] = true;
+            }
         }
         else if (rotationUpdate[i][1]) { // decreasing
             if (this.rotations[i] > crntCubeRotation[i])
                 this.rotations[i] -= (90 / this.ROT_UPDATE_STEPS) * du;
-            else
+            else {
                 rotationUpdate[i][1] = false;
+                availAxisRot[i] = true;
+            }
         }
         else // no change    
             this.rotations[i] = crntCubeRotation[i];
@@ -50,14 +54,18 @@ Triomino.prototype.update = function(du) {
         if (translUpdate[i][0]) { // decreasing
             if (this.translations[i] > crntCubeTransl[i])
                 this.translations[i] -= (0.4 / this.TRANSL_UPDATE_STEPS) * du;
-            else
+            else {
                 translUpdate[i][0] = false;
+                availAxisTransl[i] = true;
+            }
         }
         else if (translUpdate[i][1]) { // increasing
             if (this.translations[i] < crntCubeTransl[i])
                 this.translations[i] += (0.4 / this.TRANSL_UPDATE_STEPS) * du;
-            else
+            else {
                 translUpdate[i][1] = false;
+                availAxisTransl[i] = true;
+            }
         }
         else // no change
             this.translations[i] = crntCubeTransl[i];

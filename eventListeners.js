@@ -48,10 +48,11 @@ var addEventListeners = function() {
                 j = translDecisions[0][2];
                 change = translDecisions[0][0];
 
+                if (!availAxisTransl[i]) break;
+                
                 crntCubeTransl[i] += change;
                 translUpdate[i][j] = true;
-
-                availAxisTransl[i] = 
+                availAxisTransl[i] = false;
 
                 e.preventDefault();
                 break;
@@ -60,8 +61,11 @@ var addEventListeners = function() {
                 j = translDecisions[2][2];
                 change = translDecisions[2][0];
 
+                if (!availAxisTransl[i]) break;
+                    
                 crntCubeTransl[i] += change;
                 translUpdate[i][j] = true;
+                availAxisTransl[i] = false;
 
                 e.preventDefault();
                 break;
@@ -72,8 +76,11 @@ var addEventListeners = function() {
                 j = translDecisions[3][2];
                 change = translDecisions[3][0];
 
+                if (!availAxisTransl[i]) break;
+                
                 crntCubeTransl[i] += change;
                 translUpdate[i][j] = true;
+                availAxisTransl[i] = false;
 
                 e.preventDefault();
                 break;
@@ -82,8 +89,11 @@ var addEventListeners = function() {
                 j = translDecisions[1][2];
                 change = translDecisions[1][0];
 
+                if (!availAxisTransl[i]) break;
+                
                 crntCubeTransl[i] += change;
                 translUpdate[i][j] = true;
+                availAxisTransl[i] = false;
 
                 e.preventDefault();
                 break;
@@ -91,30 +101,46 @@ var addEventListeners = function() {
             // Rotations of the current cube.
             // x-axis
             case 65:    // a
+                if (!availAxisRot[0]) break;            
+                
                 crntCubeRotation[0] += 90;
                 rotationUpdate[0][0] = true;
+                availAxisRot[0] = false;
                 break;
             case 90:    // z
+                if (!availAxisRot[0]) break;
+                
                 crntCubeRotation[0] -= 90;
                 rotationUpdate[0][1] = true;
+                availAxisRot[0] = false;
                 break;
             //y-axis
             case 83:    // s
+                if (!availAxisRot[1]) break;
+                
                 crntCubeRotation[1] += 90;
                 rotationUpdate[1][0] = true;
+                availAxisRot[1] = false;
                 break;
             case 88:    // x
+                if (!availAxisRot[1]) break;
+                
                 crntCubeRotation[1] -= 90;
                 rotationUpdate[1][1] = true;
+                availAxisRot[1] = false;
                 break;
             // z-axis
             case 68:    // d
+                if (!availAxisRot[2]) break;
                 crntCubeRotation[2] += 90;
                 rotationUpdate[2][0] = true;
+                availAxisRot[2] = false;
                 break;
             case 67:    // c
+                if (!availAxisRot[2]) break;
                 crntCubeRotation[2] -= 90;
                 rotationUpdate[2][1] = true;
+                availAxisRot[2] = false;
                 break;
          }
      }  );
