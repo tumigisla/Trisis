@@ -19,8 +19,6 @@ function Cube(descr) {
 
     this.numVertices = 36; // Faces * Vertices per face(6 here -> 2 triangle per face)
 
-    this.image = textureImgs[0];
-
     this.build();
 }
 

@@ -68,8 +68,8 @@ var setup = function() {
 };
 
 var loadTextures = function() {
-    textureImgs.push(document.getElementById("circuitBoard"));
     textureImgs.push(document.getElementById("circuitBoard-blue"));
+    textureImgs.push(document.getElementById("circuitBoard"));
     textureImgs.push(document.getElementById("grid-black"));
 };
 

@@ -13,6 +13,8 @@ function Triomino(descr) {
 
     this.translUpdateBuffers = [0.0, 0.0];
 
+    this.image = this.LShape ? textureImgs[0] : textureImgs[1];
+
 }
 
 Triomino.prototype.ROT_UPDATE_STEPS = 15;
@@ -20,7 +22,7 @@ Triomino.prototype.ROT_UPDATE_STEPS = 15;
 Triomino.prototype.TRANSL_UPDATE_STEPS = 15;
 
 Triomino.prototype.build = function() {
-     this.cube = new Cube();
+     this.cube = new Cube({image : this.image});
 };
 
 Triomino.prototype.update = function(du) {
