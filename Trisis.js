@@ -7,7 +7,7 @@ var spinY = 0;
 var origX;
 var origY;
 
-var zDist = 5.0;
+var zDist = 8.0;
 
 var proLoc, mvLoc;
 
