@@ -16,6 +16,7 @@ var vPosition, vTexCoord;
 var textureImgs = [];
 
 var triomino;
+var grid;
 
 var crntCubeRotation = [0, 0, 0];
 var rotationUpdate = [[false, false], [false, false], [false, false]];
@@ -45,6 +46,9 @@ var setup = function() {
     triomino.build();
     triomino.cube.loadToGPU();
 
+    grid = new Grid();
+    grid.loadToGPU();
+
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
 
@@ -65,6 +69,8 @@ var setup = function() {
 
 var loadTextures = function() {
     textureImgs.push(document.getElementById("circuitBoard"));
+    textureImgs.push(document.getElementById("circuitBoard-blue"));
+    textureImgs.push(document.getElementById("grid-black"));
 };
 
 ///////////////////////////////////
@@ -81,6 +87,7 @@ var renderSimulation = function() {
     mv = mult( mv, rotate( parseFloat(spinY), [0, 1, 0] ) );
     
     triomino.render(mv);
+    grid.render(mv);
 };
 
 // Start the game
