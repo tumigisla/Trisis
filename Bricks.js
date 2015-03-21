@@ -29,11 +29,7 @@ Bricks.prototype.render = function(mv) {
     }
 };
 
-Bricks.prototype.initBlob = function () {
-    var i = Math.floor(Math.random()*20),
-        j = Math.floor(Math.random()*6),
-        k = Math.floor(Math.random()*6);
-
+Bricks.prototype.add = function (i,j,k) {
     var bot1 = -7.4 + i * 0.4,
         top1 = bot1 + 0.4,
         left1 = -1.4 + j * 0.4,
@@ -58,23 +54,5 @@ Bricks.prototype.initBlob = function () {
     );
     c1.loadToGPU();
 
-    // var c2 = new Cube(
-    //     {
-    //         image : textureImgs[1],
-    //         vert : [
-    //             vec3(  left2, bot2,  back2 ),
-    //             vec3(  left2, top2,  back2 ),
-    //             vec3( right2, top2,  back2 ),
-    //             vec3( right2, bot2,  back2 ),
-    //             vec3(  left2, bot2, front2 ),
-    //             vec3(  left2, top2, front2 ),
-    //             vec3( right2, top2, front2 ),
-    //             vec3( right2, bot2, front2 )
-    //         ]
-    //     }
-    // );
-    // c2.loadToGPU();
-
     this.blob[i][j][k] = c1;
-    //this.blob[0][k][l] = c2;
 };

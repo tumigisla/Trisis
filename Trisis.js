@@ -57,10 +57,10 @@ var setup = function() {
 
     bricks = new Bricks();
     bricks.build();
-    bricks.initBlob();
-    bricks.initBlob();
-    bricks.initBlob();
-    bricks.initBlob();
+    bricks.add(19, 2, 2);
+    // bricks.add(19, 4, 4);
+    // bricks.add(18, 1, 1);
+    // bricks.add(18, 5, 5);
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
