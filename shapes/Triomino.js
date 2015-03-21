@@ -6,20 +6,21 @@ function Triomino(descr) {
     this.LShape = util.coinFlip();
 
     this.rotations = [0.0, 0.0, 0.0];
-
     this.rotUpdateBuffers = [0.0, 0.0, 0.0];
 
     this.translations = [0.0, 0.0];
-
     this.translUpdateBuffers = [0.0, 0.0];
+
+    this.isDropping = false;
+    this.dropLevel = 0.0;
 
     this.image = this.LShape ? textureImgs[0] : textureImgs[1];
 
 }
 
 Triomino.prototype.ROT_UPDATE_STEPS = 15;
-
 Triomino.prototype.TRANSL_UPDATE_STEPS = 15;
+Triomino.prototype.DROP_UPDATE_STEPS = 60;
 
 Triomino.prototype.build = function() {
      this.cube = new Cube({image : this.image});
@@ -72,6 +73,16 @@ Triomino.prototype.update = function(du) {
         else // no change
             this.translations[i] = crntCubeTransl[i];
     }
+
+
+    if (this.dropLevel > crntDrop) { // drop
+        this.dropLevel -= (0.4 / this.DROP_UPDATE_STEPS) * du;
+    }
+    else { // no change
+        this.dropLevel = crntDrop;
+        if (this.isDropping)
+            crntDrop -= 0.4;
+    }
 };
 
 
@@ -79,23 +90,31 @@ Triomino.prototype.render = function(mv) {
     var mvStack = [];
 
     mvStack.push(mv);
+        mv = this.drop(mv);
         mv = this.translate(mv);
         mv = this.rotate(mv);
         this.cube.render(mv);
     mv = mvStack.pop();
     mvStack.push(mv);
+        mv = this.drop(mv);
         mv = this.translate(mv);
         mv = this.rotate(mv);
         mv = mult(mv, translate(0.0, 0.4, 0.0));
         this.cube.render(mv);
     mv = mvStack.pop();
     mvStack.push(mv);
+        mv = this.drop(mv);
         mv = this.translate(mv);
         mv = this.rotate(mv);
         mv = this.LShape ? mult(mv, translate(0.4, 0.0, 0.0)) : 
                     mult(mv, translate(0.0, -0.4, 0.0));
         this.cube.render(mv);
     mv = mvStack.pop();
+};
+
+Triomino.prototype.drop = function(mv) {
+    mv = mult(mv, translate(0.0, this.dropLevel, 0.0));
+    return mv;
 };
 
 Triomino.prototype.translate = function(mv) {
