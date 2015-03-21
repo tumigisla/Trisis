@@ -29,6 +29,8 @@ var translDecisions = translDec.ver0;
 var availAxisTransl = [true, true],     // [x, z]
     availAxisRot = [true, true, true];
 
+var keys = [];
+
 // Setup the necessities
 var setup = function() {
     canvas = document.getElementById("gl-canvas");
@@ -77,6 +79,8 @@ var loadTextures = function() {
 var updateSimulation = function(du) {
     // update
     triomino.update(du);
+
+    checkKeyInputs();
 };
 
 var renderSimulation = function() {
