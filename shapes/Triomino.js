@@ -12,6 +12,7 @@ function Triomino(descr) {
     this.translations = [0.0, 0.0];
 
     this.translUpdateBuffers = [0.0, 0.0];
+
 }
 
 Triomino.prototype.ROT_UPDATE_STEPS = 15;
@@ -62,6 +63,7 @@ Triomino.prototype.update = function(du) {
             this.translations[i] = crntCubeTransl[i];
     }
 };
+
 
 Triomino.prototype.render = function(mv) {
     var mvStack = [];

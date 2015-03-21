@@ -23,29 +23,70 @@ var addEventListeners = function() {
 
     // Event listener for keyboard
      window.addEventListener("keydown", function(e){
-         switch( e.keyCode ) {
+        var i, j, change;
 
+        if (util.inRange(util.abs(spinY), 0, 45) || util.inRange(util.abs(spinY), 315, 360)){
+            console.log('ver0');
+            translDecisions = translDec.ver0;
+        }
+
+        else if (util.inRange(spinY, 45, 135) || util.inRange(spinY, -315, -225)) {
+            console.log('ver1');
+            translDecisions = translDec.ver3;
+        }
+
+        else if (util.inRange(util.abs(spinY), 135, 225)) {
+            console.log('ver2');
+            translDecisions = translDec.ver2;
+        }
+
+        else if (util.inRange(spinY, 225, 315) || util.inRange(spinY, -135,  -45)) {
+            console.log('ver3');
+            translDecisions = translDec.ver1;
+        }
+
+         switch( e.keyCode ) {
             // x-movement
             case 37:    // left arrow
-                crntCubeTransl[0] -= 0.4;
-                translUpdate[0][0] = true;
+                i = translDecisions[0][1];
+                j = translDecisions[0][2];
+                change = translDecisions[0][0];
+
+                crntCubeTransl[i] += change;
+                translUpdate[i][j] = true;
+
                 e.preventDefault();
                 break;
             case 39:    // right arrow
-                crntCubeTransl[0] += 0.4;
-                translUpdate[0][1] = true;
+                i = translDecisions[2][1];
+                j = translDecisions[2][2];
+                change = translDecisions[2][0];
+
+                crntCubeTransl[i] += change;
+                translUpdate[i][j] = true;
+
                 e.preventDefault();
                 break;
 
             // z-movement    
             case 38:    // up arrow
-                crntCubeTransl[1] -= 0.4;
-                translUpdate[1][0] = true;
+                i = translDecisions[3][1];
+                j = translDecisions[3][2];
+                change = translDecisions[3][0];
+
+                crntCubeTransl[i] += change;
+                translUpdate[i][j] = true;
+
                 e.preventDefault();
                 break;
             case 40:    // down arrow
-                crntCubeTransl[1] += 0.4;
-                translUpdate[1][1] = true;
+                i = translDecisions[1][1];
+                j = translDecisions[1][2];
+                change = translDecisions[1][0];
+
+                crntCubeTransl[i] += change;
+                translUpdate[i][j] = true;
+
                 e.preventDefault();
                 break;
 

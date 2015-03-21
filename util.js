@@ -43,6 +43,10 @@ var util = {
 	// True or False
 	coinFlip : function() {
 		return Math.random() > 0.5;
+	},
+
+	inRange : function(x, lo, hi) {
+		return x >= lo && x <= hi;
 	}
 
 };

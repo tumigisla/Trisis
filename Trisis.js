@@ -23,6 +23,8 @@ var rotationUpdate = [[false, false], [false, false], [false, false]];
 var crntCubeTransl = [0.0, 0.0];
 var translUpdate = [[false, false], [false, false]];
 
+var translDecisions = translDec.ver0;
+
 // Setup the necessities
 var setup = function() {
     canvas = document.getElementById("gl-canvas");
