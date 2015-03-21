@@ -90,20 +90,20 @@ Triomino.prototype.render = function(mv) {
     var mvStack = [];
 
     mvStack.push(mv);
-        mv = this.drop(mv);
+        //mv = this.drop(mv);
         mv = this.translate(mv);
         mv = this.rotate(mv);
         this.cube.render(mv);
     mv = mvStack.pop();
     mvStack.push(mv);
-        mv = this.drop(mv);
+        //mv = this.drop(mv);
         mv = this.translate(mv);
         mv = this.rotate(mv);
         mv = mult(mv, translate(0.0, 0.4, 0.0));
         this.cube.render(mv);
     mv = mvStack.pop();
     mvStack.push(mv);
-        mv = this.drop(mv);
+        //mv = this.drop(mv);
         mv = this.translate(mv);
         mv = this.rotate(mv);
         mv = this.LShape ? mult(mv, translate(0.4, 0.0, 0.0)) : 
