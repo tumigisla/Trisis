@@ -17,7 +17,9 @@
    			</div>
    		</div>
    		<!-- Load texture imgs here  -->
-		<img id="circuitBoard" src="img/circuitboard4-borders.jpg" hidden></img>
+		  <img id="circuitBoard" src="img/circuitboard4-borders.jpg" hidden></img>
+      <img id="circuitBoard-blue" src="img/tex-blue-borders.jpg" hidden></img>
+      <img id="grid-black" src="img/tex-grid.png" hidden></img>
     </body>
 
 <script id="vertex-shader" type="x-shader/x-vertex">
@@ -57,6 +59,7 @@ main()
 <script type="text/javascript" src="Common/MV.js"></script>
 
 <script type="text/javascript" src="Entity.js"></script>
+<script type="text/javascript" src="entityManager.js"></script>
 
 <script type="text/javascript" src="util.js"></script>
 <script type="text/javascript" src="data.js"></script>
@@ -64,6 +67,7 @@ main()
 
 <script type="text/javascript" src="shapes/Cube.js"></script>
 <script type="text/javascript" src="shapes/Triomino.js"></script>
+<script type="text/javascript" src="Grid.js"></script>
 
 <script type="text/javascript" src="mainloop/update.js"></script>
 <script type="text/javascript" src="mainloop/render.js"></script>
