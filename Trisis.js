@@ -25,6 +25,9 @@ var translUpdate = [[false, false], [false, false]];
 
 var translDecisions = translDec.ver0;
 
+var availAxisTransl = [true, true],     // [x, z]
+    availAxisRot = [true, true, true];
+
 // Setup the necessities
 var setup = function() {
     canvas = document.getElementById("gl-canvas");

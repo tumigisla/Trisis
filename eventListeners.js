@@ -26,22 +26,18 @@ var addEventListeners = function() {
         var i, j, change;
 
         if (util.inRange(util.abs(spinY), 0, 45) || util.inRange(util.abs(spinY), 315, 360)){
-            console.log('ver0');
             translDecisions = translDec.ver0;
         }
 
         else if (util.inRange(spinY, 45, 135) || util.inRange(spinY, -315, -225)) {
-            console.log('ver1');
             translDecisions = translDec.ver3;
         }
 
         else if (util.inRange(util.abs(spinY), 135, 225)) {
-            console.log('ver2');
             translDecisions = translDec.ver2;
         }
 
         else if (util.inRange(spinY, 225, 315) || util.inRange(spinY, -135,  -45)) {
-            console.log('ver3');
             translDecisions = translDec.ver1;
         }
 
@@ -54,6 +50,8 @@ var addEventListeners = function() {
 
                 crntCubeTransl[i] += change;
                 translUpdate[i][j] = true;
+
+                availAxisTransl[i] = 
 
                 e.preventDefault();
                 break;
