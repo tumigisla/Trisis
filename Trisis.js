@@ -17,6 +17,7 @@ var textureImgs = [];
 
 var triomino;
 var grid;
+var bricks;
 
 var crntCubeRotation = [0, 0, 0];
 var rotationUpdate = [[false, false], [false, false], [false, false]];
@@ -51,7 +52,15 @@ var setup = function() {
     triomino.cube.loadToGPU();
 
     grid = new Grid();
+    grid.build();
     grid.loadToGPU();
+
+    bricks = new Bricks();
+    bricks.build();
+    bricks.initBlob();
+    bricks.initBlob();
+    bricks.initBlob();
+    bricks.initBlob();
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
@@ -95,6 +104,7 @@ var renderSimulation = function() {
     
     triomino.render(mv);
     grid.render(mv);
+    bricks.render(mv);
 };
 
 // Start the game

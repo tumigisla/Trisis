@@ -6,9 +6,8 @@
 function Entity(descr) {
 	for (var property in descr)
 		this[property] = descr[property];
-
-		this.points = [];
-		this.texCoords = [];
+	
+    this.texCoords = [];
 }
 
 Entity.prototype.loadToGPU = function() {
@@ -50,5 +49,4 @@ Entity.prototype.render = function(mv) {
 	this.useTexture();
     this.useBuffers();
     this.drawArrays(mv, 0, this.numVertices);
-    gl.bindTexture(gl.TEXTURE_2D, null);
 };

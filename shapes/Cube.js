@@ -17,7 +17,21 @@ function Cube(descr) {
     for(var property in descr)
         this[property] = descr[property];
 
+    this.points = [];
+
     this.numVertices = 36; // Faces * Vertices per face(6 here -> 2 triangle per face)
+
+    if (this.vert === undefined)
+        this.vert = [
+            vec3( -0.2, -0.2,  0.2 ),
+            vec3( -0.2,  0.2,  0.2 ),
+            vec3(  0.2,  0.2,  0.2 ),
+            vec3(  0.2, -0.2,  0.2 ),
+            vec3( -0.2, -0.2, -0.2 ),
+            vec3( -0.2,  0.2, -0.2 ),
+            vec3(  0.2,  0.2, -0.2 ),
+            vec3(  0.2, -0.2, -0.2 )
+        ];
 
     this.build();
 }
@@ -25,18 +39,6 @@ function Cube(descr) {
 Cube.prototype = new Entity();
 
 Cube.prototype.quad = function(a, b, c, d) {
-    
-    var vert = [
-        vec3(   0, -0.8, 0.4 ),
-        vec3(   0, -0.4, 0.4 ),
-        vec3( 0.4, -0.4, 0.4 ),
-        vec3( 0.4, -0.8, 0.4 ),
-        vec3(   0, -0.8,   0 ),
-        vec3(   0, -0.4,   0 ),
-        vec3( 0.4, -0.4,   0 ),
-        vec3( 0.4, -0.8,   0 )
-    ];
-    
     var texCo = [
         vec2(0, 0),
         vec2(0, 1),
@@ -48,7 +50,7 @@ Cube.prototype.quad = function(a, b, c, d) {
     var texind  = [ 1, 0, 3, 1, 3, 2 ];
 
     for ( var i = 0; i < indices.length; ++i ) {
-        this.points.push( vert[indices[i]] );
+        this.points.push( this.vert[indices[i]] );
         this.texCoords.push( texCo[texind[i]] );
     }
 };
