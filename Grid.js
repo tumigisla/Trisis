@@ -9,8 +9,6 @@ function Grid(descr) {
     this.numVertices = 120;
 
     this.image = textureImgs[3];
-
-    this.build();
 }
 
 Grid.prototype = new Entity();
