@@ -18,7 +18,7 @@ Grid.prototype = new Entity();
 Grid.prototype.build = function() {
     this.points = [];
 
-    var h = 1;
+    var h = 8;
     var x = -1.2, z = -1.2, y = -h;
     for (var i = 0; i <= 6; i++) {
         this.points.push( vec3(x, y, z) );
