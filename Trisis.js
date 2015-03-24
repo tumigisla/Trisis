@@ -15,7 +15,7 @@ var vPosition, vTexCoord;
 
 var textureImgs = [];
 
-var triomino;
+var triomino; // global, for now.
 var grid;
 var bricks;
 
@@ -27,10 +27,21 @@ var translUpdate = [[false, false], [false, false]];
 
 var translDecisions = translDec.ver0;
 
+
 var availAxisTransl = [true, true],     // [x, z]
     availAxisRot = [true, true, true];
 
 var crntDrop = 0.0;
+
+var crntCoords;
+
+var translGridChanges = translCh.ver0;
+
+var updateGridCoords = false;
+
+// 0 = down, 1 = right, 2 = up, 3 = left
+var arrowPressIndex;
+
 
 var keys = [];
 
@@ -57,7 +68,24 @@ var setup = function() {
 
     bricks = new Bricks();
     bricks.build();
-    bricks.add(19, 2, 2);
+
+    // Regular shape init
+    /*
+    bricks.add(19, 3, 3);
+    bricks.add(18, 3, 3);
+    bricks.add(17, 3, 3);
+    */
+
+    // L shape init
+    /*
+    bricks.add(19, 3, 3);
+    bricks.add(18, 3, 3);
+    bricks.add(18, 4, 3);
+    */  
+
+    //bricks.add(18,0,0);
+    //bricks.add(19, 2, 2);
+    //bricks.add(19, 5, 1);
     // bricks.add(19, 4, 4);
     // bricks.add(18, 1, 1);
     // bricks.add(18, 5, 5);

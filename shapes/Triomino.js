@@ -1,4 +1,3 @@
-
 function Triomino(descr) {
     for (var property in descr)
         this[property] = descr[property];
@@ -16,6 +15,11 @@ function Triomino(descr) {
 
     this.image = this.LShape ? textureImgs[0] : textureImgs[1];
 
+    this.topCoords = [19, 3, 3];
+    this.midCoords = [18, 3, 3];
+    this.btmCoords = this.LShape ? [18, 4 , 3] : [17, 3, 3];
+
+    this.crntCoords = [this.topCoords, this.midCoords, this.btmCoords];
 }
 
 Triomino.prototype.ROT_UPDATE_STEPS = 15;
@@ -29,6 +33,7 @@ Triomino.prototype.build = function() {
 Triomino.prototype.update = function(du) {
     // Generalize this. Rotation and translation are doing
     // exactly the same thing.
+
 
     // Rotation
     for (var i = 0; i < this.rotUpdateBuffers.length; i++) {
@@ -74,7 +79,6 @@ Triomino.prototype.update = function(du) {
             this.translations[i] = crntCubeTransl[i];
     }
 
-
     if (this.dropLevel > crntDrop) { // drop
         this.dropLevel -= (0.4 / this.DROP_UPDATE_STEPS) * du;
     }
@@ -83,6 +87,28 @@ Triomino.prototype.update = function(du) {
         if (this.isDropping)
             crntDrop -= 0.4;
     }
+
+};
+
+
+Triomino.prototype.updateGridCoords = function() {
+    for (var coords of this.crntCoords) {
+        var change = translGridChanges[arrowPressIndex];
+        for (var i = 0; i < change.length; i++) {
+            if (i > 0) {
+                if (coords[i] + change[i] >= 0 &&
+                    coords[i] + change[i] <= 5) { // Make this prettier if possible.
+                    coords[i] += change[i];
+                }
+                else {
+                    return false;
+                }
+            }
+            else
+                coords[i] += change[i];
+        }
+    }
+    return true;
 };
 
 
@@ -90,20 +116,20 @@ Triomino.prototype.render = function(mv) {
     var mvStack = [];
 
     mvStack.push(mv);
-        //mv = this.drop(mv);
+        mv = this.drop(mv);
         mv = this.translate(mv);
         mv = this.rotate(mv);
         this.cube.render(mv);
     mv = mvStack.pop();
     mvStack.push(mv);
-        //mv = this.drop(mv);
+        mv = this.drop(mv);
         mv = this.translate(mv);
         mv = this.rotate(mv);
         mv = mult(mv, translate(0.0, 0.4, 0.0));
         this.cube.render(mv);
     mv = mvStack.pop();
     mvStack.push(mv);
-        //mv = this.drop(mv);
+        mv = this.drop(mv);
         mv = this.translate(mv);
         mv = this.rotate(mv);
         mv = this.LShape ? mult(mv, translate(0.4, 0.0, 0.0)) : 

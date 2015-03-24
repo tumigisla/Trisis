@@ -21,3 +21,27 @@ var translDec = {
                 [0.4, 0, 1]     // right
             ],
 };
+
+// Translation changes
+var translCh = {
+    ver0 :  [   [0, 0, 1],   // down arrow
+                [0, 1, 0],   // right arrow
+                [0, 0, -1],  // up arrow
+                [0, -1, 0]  // left arrow
+            ],
+    ver1 :  [   [0, 1, 0],   // right arrow
+                [0, 0, -1],  // up arrow
+                [0, -1, 0],  // left arrow
+                [0, 0, 1]   // down arrow
+            ],
+    ver2 :  [   [0, 0, -1],  // up arrow
+                [0, -1, 0],  // left arrow
+                [0, 0, 1],   // down arrow
+                [0, 1, 0]   // right arrow
+            ],
+    ver3 :  [   [0, -1, 0],  // left arrow
+                [0, 0, 1],   // down arrow
+                [0, 1, 0],   // right arrow
+                [0, 0, -1]  // up arrow
+            ]  
+};

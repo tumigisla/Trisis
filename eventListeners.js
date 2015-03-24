@@ -1,4 +1,4 @@
-var addEventListeners = function() {
+    var addEventListeners = function() {
 
     // Event listeners for mouse
     canvas.addEventListener("mousedown", function(e){
@@ -50,18 +50,22 @@ var checkKeyInputs = function() {
 
     if (util.inRange(util.abs(spinY), 0, 45) || util.inRange(util.abs(spinY), 315, 360)){
         translDecisions = translDec.ver0;
+        translGridChanges = translCh.ver0;
     }
 
     else if (util.inRange(spinY, 45, 135) || util.inRange(spinY, -315, -225)) {
         translDecisions = translDec.ver3;
+        translGridChanges = translCh.ver3;
     }
 
     else if (util.inRange(util.abs(spinY), 135, 225)) {
         translDecisions = translDec.ver2;
+        translGridChanges = translCh.ver2;
     }
 
     else if (util.inRange(spinY, 225, 315) || util.inRange(spinY, -135,  -45)) {
         translDecisions = translDec.ver1;
+        translGridChanges = translCh.ver1;
     }
 
     // Key presses
@@ -72,22 +76,32 @@ var checkKeyInputs = function() {
         j = translDecisions[0][2];
         change = translDecisions[0][0];
 
-        if (!availAxisTransl[i]) return; 
+        arrowPressIndex = 3;
+
+        if (!availAxisTransl[i] ||
+            !triomino.updateGridCoords()) return; 
         
         crntCubeTransl[i] += change;
         translUpdate[i][j] = true;
         availAxisTransl[i] = false;
+
+        updateGridCoords = true;
     }
     if (keys[39]) { // right arrow
         i = translDecisions[2][1];
         j = translDecisions[2][2];
         change = translDecisions[2][0];
 
-        if (!availAxisTransl[i]) return;
+        arrowPressIndex = 1;
+
+        if (!availAxisTransl[i] ||
+            !triomino.updateGridCoords()) return; 
             
         crntCubeTransl[i] += change;
         translUpdate[i][j] = true;
         availAxisTransl[i] = false;
+
+        updateGridCoords = true;
     }
 
     // z-translations    
@@ -96,22 +110,32 @@ var checkKeyInputs = function() {
         j = translDecisions[3][2];
         change = translDecisions[3][0];
 
-        if (!availAxisTransl[i]) return;
+        arrowPressIndex = 2;
+
+        if (!availAxisTransl[i] ||
+            !triomino.updateGridCoords()) return; 
         
         crntCubeTransl[i] += change;
         translUpdate[i][j] = true;
         availAxisTransl[i] = false;
+
+        updateGridCoords = true;
     }
     if (keys[40]) { // down arrow
         i = translDecisions[1][1];
         j = translDecisions[1][2];
         change = translDecisions[1][0];
 
-        if (!availAxisTransl[i]) return;
+        arrowPressIndex = 0;
+
+        if (!availAxisTransl[i] ||
+            !triomino.updateGridCoords()) return;
         
         crntCubeTransl[i] += change;
         translUpdate[i][j] = true;
         availAxisTransl[i] = false;
+
+        updateGridCoords = true;
     }
 
     // Rotations of the current cube.
