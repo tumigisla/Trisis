@@ -73,24 +73,24 @@ var setup = function() {
 
     // Regular shape init
     /*
-    bricks.add(19, 3, 3);
-    bricks.add(18, 3, 3);
-    bricks.add(17, 3, 3);
+    bricks.add(3, 19, 3);
+    bricks.add(3, 18, 3);
+    bricks.add(3, 17, 3);
     */
 
     // L shape init
     /*
-    bricks.add(19, 3, 3);
-    bricks.add(18, 3, 3);
-    bricks.add(18, 4, 3);
+    bricks.add(3, 19, 3);
+    bricks.add(3, 18, 3);
+    bricks.add(4, 18, 3);
     */  
 
-    //bricks.add(18,0,0);
-    //bricks.add(19, 2, 2);
-    //bricks.add(19, 5, 1);
-    // bricks.add(19, 4, 4);
-    // bricks.add(18, 1, 1);
-    // bricks.add(18, 5, 5);
+    bricks.add(1, 19, 0);
+    // bricks.add(2, 19, 2);
+    // bricks.add(5, 19, 1);
+    // bricks.add(4, 19, 4);
+    // bricks.add(1, 18, 1);
+    // bricks.add(5, 18, 5);
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);

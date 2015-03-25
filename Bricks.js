@@ -5,16 +5,6 @@
 function Bricks(descr) {
     for(var property in descr)
         this[property] = descr[property];
-
-    this.height = 8;
-    this.width = 2.4;
-
-    this.hOffset = -0.2;
-    this.vOffset = 0.6;
-    this.gridSize = 0.4;
-    
-    this.vMin = -this.height + this.vOffset; // -7.4
-    this.hMin = -this.width / 2 + this.hOffset; // -1.4
 }
 
 Bricks.prototype.build = function() {
@@ -40,29 +30,15 @@ Bricks.prototype.render = function(mv) {
 };
 
 Bricks.prototype.add = function (i,j,k) {
-    var bot1 = this.vMin + i * this.gridSize,
-        top1 = bot1 + this.gridSize,
-        left1 = this.hMin + j * this.gridSize,
-        right1 = left1 + this.gridSize,
-        front1 = this.hMin + k * this.gridSize
-        back1 = front1 + this.gridSize;
-
-    var c1 = new Cube(
+    var c1 = new Brick(
         {
-            image : textureImgs[2],
-            vert : [
-                vec3(  left1, bot1,  back1 ),
-                vec3(  left1, top1,  back1 ),
-                vec3( right1, top1,  back1 ),
-                vec3( right1, bot1,  back1 ),
-                vec3(  left1, bot1, front1 ),
-                vec3(  left1, top1, front1 ),
-                vec3( right1, top1, front1 ),
-                vec3( right1, bot1, front1 )
-            ]
+            i : i,
+            j : j,
+            k : k,
+            image : textureImgs[2]
         }
     );
-    c1.loadToGPU();
+    c1.build();
 
-    this.blob[i][j][k] = c1;
+    this.blob[j][i][k] = c1;
 };
