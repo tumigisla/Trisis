@@ -64,7 +64,7 @@ var setup = function() {
 
     grid = new Grid();
     grid.build();
-    grid.loadToGPU();
+    //grid.loadToGPU();
 
     bricks = new Bricks();
     bricks.build();
@@ -119,6 +119,8 @@ var loadTextures = function() {
 var updateSimulation = function(du) {
     // update
     triomino.update(du);
+
+    grid.build();
 
     checkKeyInputs();
 };

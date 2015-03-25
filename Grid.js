@@ -23,10 +23,13 @@ function Grid(descr) {
     this.vMax = this.vOffset; // 0.6
     this.hMax = this.width / 2 + this.hOffset; // 1.0
 
+    this.drawSidesDec = gridLookatDec.ver0;
+    /*
     this.drawNegX = true;
     this.drawPosX = false;
     this.drawNegZ = true;
     this.drawPosZ = false;
+    */
 }
 
 Grid.prototype = new Entity();
@@ -77,22 +80,22 @@ Grid.prototype.build = function() {
             c = vec3(this.hMax, y, this.hMin),
             d = vec3(this.hMax, y, this.hMax);
 
-        if (i == 19 || this.drawNegX) {
+        if (i == 19 || this.drawSidesDec[0]) {
             this.points.push( a );
             this.points.push( b );
         }
         
-        if (i == 19 || this.drawPosX) {
+        if (i == 19 || this.drawSidesDec[1]) {
             this.points.push( d );
             this.points.push( c );
         }
         
-        if (i == 19 || this.drawNegZ) {
+        if (i == 19 || this.drawSidesDec[2]) {
             this.points.push( c );
             this.points.push( a );
         }
         
-        if (i == 19 || this.drawPosZ) {
+        if (i == 19 || this.drawSidesDec[3]) {
             this.points.push( b );
             this.points.push( d );
         }
@@ -100,6 +103,8 @@ Grid.prototype.build = function() {
 
     for (var i = 0; i < this.points.length; i++)
         this.texCoords.push( vec2(0, 0) );
+
+    this.loadToGPU();
 };
 
 Grid.prototype.drawArrays = function(ctm, i, n) {

@@ -51,21 +51,25 @@ var checkKeyInputs = function() {
     if (util.inRange(util.abs(spinY), 0, 45) || util.inRange(util.abs(spinY), 315, 360)){
         translDecisions = translDec.ver0;
         translGridChanges = translCh.ver0;
+        grid.drawSidesDec = gridLookatDec.ver0;
     }
 
     else if (util.inRange(spinY, 45, 135) || util.inRange(spinY, -315, -225)) {
         translDecisions = translDec.ver3;
         translGridChanges = translCh.ver3;
+        grid.drawSidesDec = gridLookatDec.ver3;
     }
 
     else if (util.inRange(util.abs(spinY), 135, 225)) {
         translDecisions = translDec.ver2;
         translGridChanges = translCh.ver2;
+        grid.drawSidesDec = gridLookatDec.ver2;
     }
 
     else if (util.inRange(spinY, 225, 315) || util.inRange(spinY, -135,  -45)) {
         translDecisions = translDec.ver1;
         translGridChanges = translCh.ver1;
+        grid.drawSidesDec = gridLookatDec.ver1;
     }
 
     // Key presses
