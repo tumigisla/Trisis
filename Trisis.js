@@ -56,6 +56,8 @@ var setup = function() {
     gl.clearColor(0.18, 0.18, 0.18, 1.0);
 
     gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.CULL_FACE);
+    gl.cullFace(gl.BACK);
 
     // Test cube
     triomino = new Triomino();
@@ -63,8 +65,8 @@ var setup = function() {
     triomino.cube.loadToGPU();
 
     grid = new Grid();
-    grid.build();
-    //grid.loadToGPU();
+    //grid.build();
+    grid.loadToGPU();
 
     bricks = new Bricks();
     bricks.build();
@@ -112,16 +114,14 @@ var loadTextures = function() {
     textureImgs.push(document.getElementById("circuitBoard-blue"));
     textureImgs.push(document.getElementById("circuitBoard-red"));
     textureImgs.push(document.getElementById("circuitBoard-green"));
-    textureImgs.push(document.getElementById("grid-black"));
+    textureImgs.push(document.getElementById("grid-white"));
+    textureImgs.push(document.getElementById("grid-box"));
 };
 
 ///////////////////////////////////
 var updateSimulation = function(du) {
     // update
     triomino.update(du);
-
-    grid.build();
-
     checkKeyInputs();
 };
 
