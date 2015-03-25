@@ -92,21 +92,27 @@ Triomino.prototype.update = function(du) {
 
 
 Triomino.prototype.updateGridCoords = function() {
+    var shouldUpdate = [true, true, true];
     for (var coords of this.crntCoords) {
         var change = translGridChanges[arrowPressIndex];
         for (var i = 0; i < change.length; i++) {
             if (i > 0) {
-                if (coords[i] + change[i] >= 0 &&
-                    coords[i] + change[i] <= 5) { // Make this prettier if possible.
-                    coords[i] += change[i];
-                }
-                else {
-                    return false;
+                if (!(coords[i] + change[i] >= 0 &&
+                    coords[i] + change[i] <= 5)) { // Make this prettier if possible.
+                    shouldUpdate[i] = false;
                 }
             }
-            else
-                coords[i] += change[i];
         }
+    }
+    for (var su of shouldUpdate) {
+        if (!su)
+            return false;
+    }
+    // We can only get to here if shouldUpdate === [true, true, true]
+    for (var coords of this.crntCoords) {
+        var change = translGridChanges[arrowPressIndex];
+        for (var i = 0; i < change.length; i++)
+            coords[i] += change[i];
     }
     return true;
 };
