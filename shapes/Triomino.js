@@ -20,6 +20,8 @@ function Triomino(descr) {
     this.btmCoords = this.LShape ? [18, 4 , 3] : [17, 3, 3];
 
     this.crntCoords = [this.topCoords, this.midCoords, this.btmCoords];
+
+    this.initHeights = this.LShape ? [19, 18, 18] : [19, 18, 17];
 }
 
 Triomino.prototype.ROT_UPDATE_STEPS = 15;
@@ -79,22 +81,28 @@ Triomino.prototype.update = function(du) {
             this.translations[i] = crntCubeTransl[i];
     }
 
+    // Dropping
     if (this.isDropping) {
         this.dropLevel -= (0.4 / this.DROP_UPDATE_STEPS) * du;
     }
-
     else {
         this.dropLevel -= (this.dropLevel % (-0.4));  // clamp to last index
-    }   
+    }
+
+    // Grid coords update for dropping
+    for (var coords of this.crntCoords) {
+        var index = this.crntCoords.indexOf(coords);
+        coords[0] = this.initHeights[index] + Math.floor(this.dropLevel / 0.4);
+    }
 };
 
 
 Triomino.prototype.updateGridCoords = function() {
     var shouldUpdate = [true, true, true];
     for (var coords of this.crntCoords) {
-        var change = translGridChanges[arrowPressIndex];
-        for (var i = 0; i < change.length; i++) {
-            if (i > 0) {
+        if (arrowPressIndex) {
+            var change = translGridChanges[arrowPressIndex];
+            for (var i = 1; i < change.length; i++) {
                 if (!(coords[i] + change[i] >= 0 &&
                     coords[i] + change[i] <= 5)) { // Make this prettier if possible.
                     shouldUpdate[i] = false;
@@ -108,10 +116,18 @@ Triomino.prototype.updateGridCoords = function() {
     }
     // We can only get to here if shouldUpdate === [true, true, true]
     for (var coords of this.crntCoords) {
-        var change = translGridChanges[arrowPressIndex];
-        for (var i = 0; i < change.length; i++)
-            coords[i] += change[i];
+        if (arrowPressIndex) {
+            var change = translGridChanges[arrowPressIndex];
+            for (var i = 0; i < change.length; i++)
+                coords[i] += change[i];
+        }
     }
+
+    // Make sure we're not detecting arrow button presses
+    // when updating grid coords relative to the
+    // dropping (y-translation).
+    arrowPressIndex = undefined; 
+
     return true;
 };
 
