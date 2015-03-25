@@ -194,7 +194,7 @@ var checkKeyInputs = function() {
 
     // Init dropping
     if (eatKey(73)) { // i button
-        crntDrop = 0.0;
+        triomino.dropLevel = 0.0;
         triomino.isDropping = false;
     }    
 

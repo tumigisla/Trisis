@@ -79,15 +79,13 @@ Triomino.prototype.update = function(du) {
             this.translations[i] = crntCubeTransl[i];
     }
 
-    if (this.dropLevel > crntDrop) { // drop
+    if (this.isDropping) {
         this.dropLevel -= (0.4 / this.DROP_UPDATE_STEPS) * du;
     }
-    else { // no change
-        this.dropLevel = crntDrop;
-        if (this.isDropping)
-            crntDrop -= 0.4;
-    }
 
+    else {
+        this.dropLevel -= (this.dropLevel % (-0.4));  // clamp to last index
+    }   
 };
 
 
