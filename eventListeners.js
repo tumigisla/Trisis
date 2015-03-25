@@ -197,6 +197,16 @@ var checkKeyInputs = function() {
         crntDrop = 0.0;
         triomino.isDropping = false;
     }    
+
+    // Faster dropping
+    if (keys[32]) {
+        if (triomino.DROP_UPDATE_STEPS > 10)
+            triomino.DROP_UPDATE_STEPS -= 1.0;
+    }
+
+    else
+        if (triomino.DROP_UPDATE_STEPS < 60)
+            triomino.DROP_UPDATE_STEPS += 5.0;
 };
 
 
