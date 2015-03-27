@@ -143,14 +143,22 @@ var checkKeyInputs = function() {
     if (keys[65]) { // a
         if (!availAxisRot[0]) return;            
         
+        crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[0] += 90;
+
+        if (!triomino.checkRotations()) return;
+
         rotationUpdate[0][0] = true;
         availAxisRot[0] = false;
     }
     if (keys[90]) { // z
         if (!availAxisRot[0]) return;
         
+        crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[0] -= 90;
+
+        if (!triomino.checkRotations()) return;
+
         rotationUpdate[0][1] = true;
         availAxisRot[0] = false;
     }
@@ -159,14 +167,22 @@ var checkKeyInputs = function() {
     if (keys[83]) { // s
         if (!availAxisRot[1]) return;
         
+        crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[1] += 90;
+
+        if (!triomino.checkRotations()) return;
+
         rotationUpdate[1][0] = true;
         availAxisRot[1] = false;
     }
     if (keys[88]) { // x
         if (!availAxisRot[1]) return;
         
+        crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[1] -= 90;
+
+        if (!triomino.checkRotations()) return;
+        
         rotationUpdate[1][1] = true;
         availAxisRot[1] = false;
     }
@@ -175,14 +191,23 @@ var checkKeyInputs = function() {
     if (keys[68]) { // d
         if (!availAxisRot[2]) return;
 
+        crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[2] += 90;
+
+        if (!triomino.checkRotations()) return;
+
         rotationUpdate[2][0] = true;
         availAxisRot[2] = false;
     }
     if (keys[67]) { // c
         if (!availAxisRot[2]) return;
 
+        crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[2] -= 90;
+
+        if (!triomino.checkRotations()) return;
+
+
         rotationUpdate[2][1] = true;
         availAxisRot[2] = false;
     }

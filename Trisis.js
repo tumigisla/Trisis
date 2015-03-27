@@ -19,6 +19,7 @@ var triomino; // global, for now.
 var grid;
 var bricks;
 
+var crntCubeRotationBackup;
 var crntCubeRotation = [0, 0, 0];
 var rotationUpdate = [[false, false], [false, false], [false, false]];
 
@@ -121,8 +122,8 @@ var loadTextures = function() {
 ///////////////////////////////////
 var updateSimulation = function(du) {
     // update
-    triomino.update(du);
     checkKeyInputs();
+    triomino.update(du);
 };
 
 var renderSimulation = function() {

@@ -45,10 +45,3 @@ var translCh = {
                 [0, 0, -1]  // up arrow
             ]  
 };
-
-var gridLookatDec = {
-    ver0 : [true, false, true, false],
-    ver3 : [false, true, true, false],
-    ver2 : [false, true, false, true],
-    ver1 : [true, false, false, true]
-};
