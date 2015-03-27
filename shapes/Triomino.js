@@ -4,8 +4,8 @@ function Triomino(descr) {
     for (var property in descr)
         this[property] = descr[property];
 
-    //this.LShape = util.coinFlip();
-    this.LShape = false;
+    this.LShape = util.coinFlip();
+    //this.LShape = false;
 
     this.rotations = [0.0, 0.0, 0.0];
     this.rotUpdateBuffers = [0.0, 0.0, 0.0];
@@ -133,12 +133,96 @@ var didUpdateRotation = false;
 
 // Update grid coords relative to the current rotation.
 Triomino.prototype.checkRotations = function() {
-    // Regular shape
-    // 0 and 180 rotations don't matter.
     var xRot = util.abs(crntCubeRotation[0] % 360),
         yRot = util.abs(crntCubeRotation[1] % 360),
         zRot = util.abs(crntCubeRotation[2] % 360);
 
+    if (this.LShape)
+        this.lShapeRot(xRot, yRot, zRot);
+    else
+        this.regularShapeRot(xRot, yRot, zRot);
+
+    return didUpdateRotation;
+};
+
+Triomino.prototype.lShapeRot = function(xRot, yRot, zRot) {
+    var xOdd = xRot === 90 || xRot === 270,
+        yOdd = yRot === 90 || yRot === 270,
+        zOdd = zRot === 90 || zRot === 270;
+
+    var xEven = xRot === 180,
+        yEven = yRot === 180,
+        zEven = zRot === 180;
+
+    var xZero = xRot === 0,
+        yZero = yRot === 0,
+        zZero = zRot === 0;
+
+    var oldCoords = this.crntCoords.slice(0);
+    var newCoords;
+
+    if      (xZero && yZero && zZero)   newCoords = this.changeCoordsLShape([[0,1], [1,1]], oldCoords);    // 18, i+1, j+1
+    else if (xEven && yZero && zZero)   newCoords = this.changeCoordsLShape([[0,-1], [1,1]], oldCoords);   // 19, i-1, j+1
+    else if (xEven && yEven && zZero)   newCoords = this.changeCoordsLShape([[0,-1],[2,-1]], oldCoords);   // 20, i-1, k-1
+    else if (xEven && yEven && zEven)   newCoords = this.changeCoordsLShape([[0,1], [1,1]], oldCoords);    // 21, i+1, j+1
+    else if (xZero && yEven && zZero)   newCoords = this.changeCoordsLShape([[0,1], [1,-1]], oldCoords);   // 22, i+1, j-1
+    else if (xZero && yZero && zEven)   newCoords = this.changeCoordsLShape([[0,-1], [1,-1]], oldCoords);  // 23, i-1, j-1
+    else if (xZero && yEven && zEven)   newCoords = this.changeCoordsLShape([[0,-1], [1,1]], oldCoords);   // 24, i-1, j+1
+    else if (xZero && yZero && zOdd)    newCoords = this.changeCoordsLShape([[0,-1], [1,1]], oldCoords);   // 25, i-1, j+1
+    else if (xEven && yZero && zOdd)    newCoords = this.changeCoordsLShape([[0,1], [1,1]], oldCoords);    // 26, i+1, j+1
+    else if (xZero && yEven && zOdd)    newCoords = this.changeCoordsLShape([[0,-1], [1,-1]], oldCoords);  // 27, i-1, j-1
+    else if (xEven && yEven && zOdd)    newCoords = this.changeCoordsLShape([[0,1], [1,-1]], oldCoords);   // 28, i+1, j-1
+    else if (xZero && yOdd && zZero)    newCoords = this.changeCoordsLShape([[0,1], [2,-1]], oldCoords);   // 29, i+1, k-1
+    else if (xEven && yOdd && zZero)    newCoords = this.changeCoordsLShape([[0,-1], [2,-1]], oldCoords);  // 30, i-1, k-1
+    else if (xZero && yOdd && zEven)    newCoords = this.changeCoordsLShape([[0,-1], [2,-1]], oldCoords);  // 31, i-1, k-1
+    else if (xEven && yOdd && zEven)    newCoords = this.changeCoordsLShape([[0,1], [2,1]], oldCoords);    // 32, i+1, k+1
+    else if (xZero && yOdd && zOdd)     newCoords = this.changeCoordsLShape([[0,-1], [2,1]], oldCoords);   // 33, i-1, k+1
+    else if (xEven && yOdd && zOdd)     newCoords = this.changeCoordsLShape([[0,1], [2,-1]], oldCoords);   // 34, i+1, k-1
+    else if (xOdd && yZero && zZero)    newCoords = this.changeCoordsLShape([[2,-1], [1, 1]], oldCoords);  // 35, k-1, j+1
+    else if (xOdd && yEven && zZero)    newCoords = this.changeCoordsLShape([[2,-1], [1,-1]], oldCoords);  // 36, k-1, j-1
+    else if (xOdd && yZero && zEven)    newCoords = this.changeCoordsLShape([[2,1], [1,-1]], oldCoords);   // 37, k+1, j-1
+    else if (xOdd && yEven && zEven)    newCoords = this.changeCoordsLShape([[2,1], [1,1]], oldCoords);    // 38, k+1, j+1
+    else if (xOdd && yZero && zOdd)     newCoords = this.changeCoordsLShape([[2,1], [1,1]], oldCoords);    // 39, k+1, j+1
+    else if (xOdd && yEven && zOdd)     newCoords = this.changeCoordsLShape([[2,1], [1,-1]], oldCoords);   // 40, k+1, j-1
+    else if (xOdd && yOdd && zZero)     newCoords = this.changeCoordsLShape([[0,1], [2,-1]], oldCoords);   // 41, i+1, k-1
+    else if (xOdd && yOdd && zEven)     newCoords = this.changeCoordsLShape([[0,-1], [2,1]], oldCoords);   // 42, i-1, k+1
+    else if (xOdd && yOdd && zOdd)      newCoords = this.changeCoordsLShape([[0,1], [2,1]], oldCoords);    // 43, i+1, k+1
+
+    didUpdateRotation = !(newCoords === oldCoords); 
+    
+    this.crntCoords = newCoords ? newCoords : oldCoords;
+
+    if (!didUpdateRotation) crntCubeRotation = crntCubeRotationBackup;
+};
+
+// dims is and array of two dimensions.
+Triomino.prototype.changeCoordsLShape = function(dims, coords) {
+
+    var tmpCoords = [[], coords[1], []];
+    
+    var dim0 = dims[0],
+        dim1 = dims[1];
+
+    for (var i = 0; i < coords.length; i++) {
+        if (i === dim0[0]) {
+            tmpCoords[0][i] = coords[1][i] + dim0[1];
+            tmpCoords[2][i] = coords[1][i];
+        }
+        else if (i === dim1[0]) {
+            tmpCoords[0][i] = coords[1][i];
+            tmpCoords[2][i] = coords[1][i] + dim1[1];
+        }
+        else {
+            tmpCoords[0][i] = coords[1][i];
+            tmpCoords[2][i] = coords[1][i];
+        }
+    }
+
+    if (this.insideBounds(tmpCoords)) return tmpCoords;
+    return coords;
+};
+
+Triomino.prototype.regularShapeRot = function(xRot, yRot, zRot) {
     var xTurning = xRot === 90 || xRot === 270,
         yTurning = yRot === 90 || yRot === 270,
         zTurning = zRot === 90 || zRot === 270;
@@ -171,8 +255,6 @@ Triomino.prototype.checkRotations = function() {
     //console.log(didUpdateRotation);
 
     if (!didUpdateRotation) crntCubeRotation = crntCubeRotationBackup;
-
-    return didUpdateRotation;
 };
 
 Triomino.prototype.insideBounds = function(coords) {

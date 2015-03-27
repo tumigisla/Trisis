@@ -182,7 +182,7 @@ var checkKeyInputs = function() {
         crntCubeRotation[1] -= 90;
 
         if (!triomino.checkRotations()) return;
-        
+
         rotationUpdate[1][1] = true;
         availAxisRot[1] = false;
     }
@@ -206,7 +206,6 @@ var checkKeyInputs = function() {
         crntCubeRotation[2] -= 90;
 
         if (!triomino.checkRotations()) return;
-
 
         rotationUpdate[2][1] = true;
         availAxisRot[2] = false;
