@@ -86,7 +86,7 @@ var setup = function() {
     bricks.add(4, 18, 3);
     */  
 
-    bricks.add(1, 19, 0);
+    bricks.add(1, 19, 0, textureImgs[0]);
     // bricks.add(2, 19, 2);
     // bricks.add(5, 19, 1);
     // bricks.add(4, 19, 4);

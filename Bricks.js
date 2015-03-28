@@ -29,13 +29,13 @@ Bricks.prototype.render = function(mv) {
     }
 };
 
-Bricks.prototype.add = function (i,j,k) {
+Bricks.prototype.add = function (i,j,k,tex) {
     var c1 = new Brick(
         {
             i : i,
             j : j,
             k : k,
-            image : textureImgs[2]
+            image : tex
         }
     );
     c1.build();
