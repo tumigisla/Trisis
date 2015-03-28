@@ -18,7 +18,7 @@ function initShaders( gl, vertexShaderId, fragmentShaderId )
         gl.compileShader( vertShdr );
         if ( !gl.getShaderParameter(vertShdr, gl.COMPILE_STATUS) ) {
             var msg = "Vertex shader failed to compile.  The error log is:"
-        	+ "<pre>" + gl.getShaderInfoLog( vertShdr ) + "</pre>";
+                + "<pre>" + gl.getShaderInfoLog( vertShdr ) + "</pre>";
             alert( msg );
             return -1;
         }
@@ -35,7 +35,7 @@ function initShaders( gl, vertexShaderId, fragmentShaderId )
         gl.compileShader( fragShdr );
         if ( !gl.getShaderParameter(fragShdr, gl.COMPILE_STATUS) ) {
             var msg = "Fragment shader failed to compile.  The error log is:"
-        	+ "<pre>" + gl.getShaderInfoLog( fragShdr ) + "</pre>";
+                + "<pre>" + gl.getShaderInfoLog( fragShdr ) + "</pre>";
             alert( msg );
             return -1;
         }
