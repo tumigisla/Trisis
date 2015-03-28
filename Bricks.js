@@ -42,3 +42,21 @@ Bricks.prototype.add = function (i,j,k) {
 
     this.blob[j][i][k] = c1;
 };
+
+Bricks.prototype.check = function (i,j,k) {
+    var allNums = typeof i === "Number" && typeof j === "Number"
+         && typeof k === "Number",
+        allArr = typeof i === "Array" && typeof j === "Array"
+         && typeof k === "Array";
+
+    if (allNums) {
+        if (this.blob[j] && this.blob[j][i] && this.blob[j][i][k])
+            return true;
+        else 
+            return false;
+    } else if (allArr) {
+        return this.check(i[0], i[1], i[2]) && this.check(j[0], j[1], j[2])
+                 && this.check(k[0], k[1], k[2]);
+    }
+    // else return undefined
+};
