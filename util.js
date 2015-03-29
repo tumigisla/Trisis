@@ -49,6 +49,18 @@ var util = {
 
     inRange : function(x, lo, hi) {
         return x >= lo && x <= hi;
+    },
+
+    roundUp : function(number, roundUpTo) {
+        if (roundUpTo === 0)
+            return number;
+        return Math.ceil(number / roundUpTo) * roundUpTo;
+    },
+
+    roundDown : function(number, roundDownTo) {
+        if (roundDownTo === 0)
+            return number;
+        return Math.floor(number / roundDownTo) * roundDownTo;
     }
 
 };
