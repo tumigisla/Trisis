@@ -560,6 +560,7 @@ function normalize( u, excludeLastComponent )
     var len = length( u );
 
     if ( !isFinite(len) ) {
+        debugger;
         throw "normalize: vector " + u + " has zero length";
     }
     
