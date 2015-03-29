@@ -161,9 +161,9 @@ Triomino.prototype.lShapeRot = function() {
         yOdd1 = yRot === 90 || yRot === -270,
         zOdd1 = zRot === 90 || zRot === -270;
 
-    var xEven = xRot === 180,
-        yEven = yRot === 180,
-        zEven = zRot === 180;
+    var xEven = util.abs(xRot) === 180,
+        yEven = util.abs(yRot) === 180,
+        zEven = util.abs(zRot) === 180;
 
     var xOdd2 = xRot === 270 || xRot === -90,
         yOdd2 = yRot === 270 || yRot === -90,
