@@ -91,6 +91,8 @@ Triomino.prototype.update = function(du) {
     // Dropping
 
     var isColliding = this.collideCheck();
+
+    var oldDropLevel = this.dropLevel;
     
     if (this.isDropping) {
         this.dropLevel -= (0.4 / this.DROP_UPDATE_STEPS) * du;
@@ -102,18 +104,9 @@ Triomino.prototype.update = function(du) {
     
     var collide = this.collideCheck();
     if (!isColliding && collide) {
-        console.log("collide", collide);
-
+        this.dropLevel = oldDropLevel;
+        //console.log("collide", collide);
     }
-
-
-    // Grid coords update for dropping
-    /*
-    for (var coords of this.crntCoords) {
-        var index = this.crntCoords.indexOf(coords);
-        coords[0] = crntHeights[index] + Math.ceil(this.dropLevel / 0.4);
-    }
-    */
 };
 
 Triomino.prototype.collideCheck = function () {
@@ -143,30 +136,42 @@ Triomino.prototype.collideCheck = function () {
     }
 }
 
+
 Triomino.prototype.updateGridCoords = function() {
+    var scaleDL = this.dropLevel / -0.4;
+
+    var checkCoords = [
+        [this.crntCoords[0][0], this.crntCoords[0][1], this.crntCoords[0][2]],
+        [this.crntCoords[1][0], this.crntCoords[1][1], this.crntCoords[1][2]],
+        [this.crntCoords[2][0], this.crntCoords[2][1], this.crntCoords[2][2]]
+    ];
+    checkCoords[0][0] -= Math.ceil(scaleDL);
+    checkCoords[1][0] -= Math.ceil(scaleDL);
+    checkCoords[2][0] -= Math.ceil(scaleDL);
+
     var shouldUpdate = [true, true, true];
-    for (var coords of this.crntCoords) {
+
+    for (var coords of checkCoords) {
         var change = translGridChanges[arrowPressIndex];
         for (var i = 1; i < change.length; i++) {
-            if (!(coords[i] + change[i] >= 0 &&
-                coords[i] + change[i] <= 5)) { // Make this prettier if possible.
-                shouldUpdate[i] = false;
-            }
+            coords[i] += change[i];
         }
     }
-    for (var su of shouldUpdate) {
-        if (!su)
-            return false;
-    }
-    // We can only get to here if shouldUpdate === [true, true, true]
-    for (var coords of this.crntCoords) {
-        var change = translGridChanges[arrowPressIndex];
-        for (var i = 0; i < change.length; i++)
-            coords[i] += change[i];
-    }
 
-    return true;
+    if (bricks.check(checkCoords) || !this.insideBounds(checkCoords)) {
+        console.log("crashing blob from side or crashing the walls");
+        return false;
+    }
+    else {
+        for (var coords of this.crntCoords) {
+            var change = translGridChanges[arrowPressIndex];
+            for (var i = 1; i < change.length; i++)
+                coords[i] += change[i];
+        }
+        return true;
+    }
 };
+
 
 var didUpdateRotation = false;
 
