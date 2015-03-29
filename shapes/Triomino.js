@@ -5,7 +5,7 @@ function Triomino(descr) {
         this[property] = descr[property];
 
     this.LShape = util.coinFlip();
-    this.LShape = true;
+    //this.LShape = true;
 
     this.rotations = [0.0, 0.0, 0.0];
     this.rotUpdateBuffers = [0.0, 0.0, 0.0];
