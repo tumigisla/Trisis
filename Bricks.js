@@ -61,8 +61,10 @@ Bricks.prototype.check = function (y,x,z) {
             console.log( "case 1" );
 
             // num, num, num
-            if (this.blob[y] && this.blob[y][x] && this.blob[y][x][z])
+            if (this.blob[y] && this.blob[y][x] && this.blob[y][x][z]) {
+                console.log('HERE');
                 return true;
+            }
             else 
                 return false;
         } else if ( x && z ) {

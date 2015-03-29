@@ -22,6 +22,8 @@ function Triomino(descr) {
     this.btmCoords = this.LShape ? [18, 4 , 3] : [17, 3, 3];
 
     this.crntCoords = [this.topCoords, this.midCoords, this.btmCoords];
+
+    this.hasLanded = false;
 }
 
 Triomino.prototype.ROT_UPDATE_STEPS = 15;
@@ -403,7 +405,6 @@ Triomino.prototype.render = function(mv) {
         mv = this.translate(mv);
         mv = this.rotate(mv);
         this.cube.render(mv);
-        this.mvs[1] = mv;
     mv = mvStack.pop();
     mvStack.push(mv);   // top cube
         mv = this.drop(mv);
@@ -411,7 +412,6 @@ Triomino.prototype.render = function(mv) {
         mv = this.rotate(mv);
         mv = mult(mv, translate(0.0, 0.4, 0.0));
         this.cube.render(mv);
-        this.mvs[0] = mv;
     mv = mvStack.pop();
     mvStack.push(mv);   // btm cube
         mv = this.drop(mv);
@@ -420,7 +420,6 @@ Triomino.prototype.render = function(mv) {
         mv = this.LShape ? mult(mv, translate(0.4, 0.0, 0.0)) : 
                     mult(mv, translate(0.0, -0.4, 0.0));
         this.cube.render(mv);
-        this.mvs[2] = mv;
     mv = mvStack.pop();
 };
 
