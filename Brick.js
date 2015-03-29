@@ -5,7 +5,7 @@
 function Brick(descr) {
     // descr must include:
     //     image
-    //     i, j, k grid index
+    //     y, x, z grid index
 
     for(var property in descr)
         this[property] = descr[property];
@@ -13,16 +13,16 @@ function Brick(descr) {
     var gs = grid.gridSize;
 
     this.translations = [
-        this.i * gs,
-        this.j * gs,
-        this.k * gs
+        this.x * gs,
+        this.y * gs,
+        this.z * gs
     ];
 }
 
 Brick.prototype.build = function() {
     var c1 = new Cube(
         {
-            image : this.image,
+            image : this.tex,
             vert : [
                 vec3(-1.4, -7.4, -1.0),
                 vec3(-1.4, -7.0, -1.0),

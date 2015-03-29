@@ -29,34 +29,40 @@ Bricks.prototype.render = function(mv) {
     }
 };
 
-Bricks.prototype.add = function (i,j,k,tex) {
-    var c1 = new Brick(
-        {
-            i : i,
-            j : j,
-            k : k,
-            image : tex
-        }
-    );
-    c1.build();
+// input can be 3 indices or 3 arrays each with 3 indices
+Bricks.prototype.add = function (y,x,z,tex) {
+    if ( typeof y === "number" ) {
+        var c1 = new Brick(
+            {
+                y : y,
+                x : x,
+                z : z,
+                tex : tex
+            }
+        );
+        c1.build();
 
-    this.blob[j][i][k] = c1;
+        this.blob[y][x][z] = c1;
+    } else {
+        // assume three arrays each with 3 indices
+        this.add(y[0], y[1], y[2], tex);
+        this.add(x[0], x[1], x[2], tex);
+        this.add(z[0], z[1], z[2], tex);
+    }
 };
 
-Bricks.prototype.check = function (i,j,k) {
-    var allNums = typeof i === "Number" && typeof j === "Number"
-         && typeof k === "Number",
-        allArr = typeof i === "Array" && typeof j === "Array"
-         && typeof k === "Array";
-
-    if (allNums) {
-        if (this.blob[j] && this.blob[j][i] && this.blob[j][i][k])
+// input can be 3 indices or 3 arrays each with 3 indices
+Bricks.prototype.check = function (y,x,z) {
+    if ( typeof y === "number" ) {
+        if (this.blob[y] && this.blob[y][x] && this.blob[y][x][z])
             return true;
         else 
             return false;
-    } else if (allArr) {
-        return this.check(i[0], i[1], i[2]) && this.check(j[0], j[1], j[2])
-                 && this.check(k[0], k[1], k[2]);
+    } else {
+        var a = this.check(y[0], y[1], y[2]), 
+            b = this.check(x[0], x[1], x[2]), 
+            c = this.check(z[0], z[1], z[2]);
+
+        return a && b && c;
     }
-    // else return undefined
 };
