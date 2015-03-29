@@ -5,7 +5,7 @@ function Triomino(descr) {
         this[property] = descr[property];
 
     this.LShape = util.coinFlip();
-    //this.LShape = false;
+    this.LShape = true;
 
     this.rotations = [0.0, 0.0, 0.0];
     this.rotUpdateBuffers = [0.0, 0.0, 0.0];
@@ -26,6 +26,8 @@ function Triomino(descr) {
     this.crntCoords = [this.topCoords, this.midCoords, this.btmCoords];
 
     crntHeights = this.LShape ? [19, 18, 18] : [19, 18, 17];
+
+    this.mvs = [[],[],[]];
 }
 
 Triomino.prototype.ROT_UPDATE_STEPS = 15;
@@ -138,55 +140,112 @@ Triomino.prototype.checkRotations = function() {
         zRot = util.abs(crntCubeRotation[2] % 360);
 
     if (this.LShape)
-        this.lShapeRot(xRot, yRot, zRot);
+        this.lShapeRot();
     else
         this.regularShapeRot(xRot, yRot, zRot);
 
     return didUpdateRotation;
 };
 
-Triomino.prototype.lShapeRot = function(xRot, yRot, zRot) {
-    var xOdd = xRot === 90 || xRot === 270,
-        yOdd = yRot === 90 || yRot === 270,
-        zOdd = zRot === 90 || zRot === 270;
+Triomino.prototype.lShapeRot = function() {
 
-    var xEven = xRot === 180,
-        yEven = yRot === 180,
-        zEven = zRot === 180;
+    var xRot = crntCubeRotation[0] % 360,
+        yRot = crntCubeRotation[1] % 360,
+        zRot = crntCubeRotation[2] % 360;
 
     var xZero = xRot === 0,
         yZero = yRot === 0,
         zZero = zRot === 0;
 
+    var xOdd1 = xRot === 90 || xRot === -270,
+        yOdd1 = yRot === 90 || yRot === -270,
+        zOdd1 = zRot === 90 || zRot === -270;
+
+    var xEven = xRot === 180,
+        yEven = yRot === 180,
+        zEven = zRot === 180;
+
+    var xOdd2 = xRot === 270 || xRot === -90,
+        yOdd2 = yRot === 270 || yRot === -90,
+        zOdd2 = zRot === 270 || zRot === -90;
+
     var oldCoords = this.crntCoords.slice(0);
     var newCoords;
 
-    if      (xZero && yZero && zZero)   newCoords = this.changeCoordsLShape([[0,1], [1,1]], oldCoords);    // 18, i+1, j+1
-    else if (xEven && yZero && zZero)   newCoords = this.changeCoordsLShape([[0,-1], [1,1]], oldCoords);   // 19, i-1, j+1
-    else if (xEven && yEven && zZero)   newCoords = this.changeCoordsLShape([[0,-1],[2,-1]], oldCoords);   // 20, i-1, k-1
-    else if (xEven && yEven && zEven)   newCoords = this.changeCoordsLShape([[0,1], [1,1]], oldCoords);    // 21, i+1, j+1
-    else if (xZero && yEven && zZero)   newCoords = this.changeCoordsLShape([[0,1], [1,-1]], oldCoords);   // 22, i+1, j-1
-    else if (xZero && yZero && zEven)   newCoords = this.changeCoordsLShape([[0,-1], [1,-1]], oldCoords);  // 23, i-1, j-1
-    else if (xZero && yEven && zEven)   newCoords = this.changeCoordsLShape([[0,-1], [1,1]], oldCoords);   // 24, i-1, j+1
-    else if (xZero && yZero && zOdd)    newCoords = this.changeCoordsLShape([[0,-1], [1,1]], oldCoords);   // 25, i-1, j+1
-    else if (xEven && yZero && zOdd)    newCoords = this.changeCoordsLShape([[0,1], [1,1]], oldCoords);    // 26, i+1, j+1
-    else if (xZero && yEven && zOdd)    newCoords = this.changeCoordsLShape([[0,-1], [1,-1]], oldCoords);  // 27, i-1, j-1
-    else if (xEven && yEven && zOdd)    newCoords = this.changeCoordsLShape([[0,1], [1,-1]], oldCoords);   // 28, i+1, j-1
-    else if (xZero && yOdd && zZero)    newCoords = this.changeCoordsLShape([[0,1], [2,-1]], oldCoords);   // 29, i+1, k-1
-    else if (xEven && yOdd && zZero)    newCoords = this.changeCoordsLShape([[0,-1], [2,-1]], oldCoords);  // 30, i-1, k-1
-    else if (xZero && yOdd && zEven)    newCoords = this.changeCoordsLShape([[0,-1], [2,-1]], oldCoords);  // 31, i-1, k-1
-    else if (xEven && yOdd && zEven)    newCoords = this.changeCoordsLShape([[0,1], [2,1]], oldCoords);    // 32, i+1, k+1
-    else if (xZero && yOdd && zOdd)     newCoords = this.changeCoordsLShape([[0,-1], [2,1]], oldCoords);   // 33, i-1, k+1
-    else if (xEven && yOdd && zOdd)     newCoords = this.changeCoordsLShape([[0,1], [2,-1]], oldCoords);   // 34, i+1, k-1
-    else if (xOdd && yZero && zZero)    newCoords = this.changeCoordsLShape([[2,-1], [1, 1]], oldCoords);  // 35, k-1, j+1
-    else if (xOdd && yEven && zZero)    newCoords = this.changeCoordsLShape([[2,-1], [1,-1]], oldCoords);  // 36, k-1, j-1
-    else if (xOdd && yZero && zEven)    newCoords = this.changeCoordsLShape([[2,1], [1,-1]], oldCoords);   // 37, k+1, j-1
-    else if (xOdd && yEven && zEven)    newCoords = this.changeCoordsLShape([[2,1], [1,1]], oldCoords);    // 38, k+1, j+1
-    else if (xOdd && yZero && zOdd)     newCoords = this.changeCoordsLShape([[2,1], [1,1]], oldCoords);    // 39, k+1, j+1
-    else if (xOdd && yEven && zOdd)     newCoords = this.changeCoordsLShape([[2,1], [1,-1]], oldCoords);   // 40, k+1, j-1
-    else if (xOdd && yOdd && zZero)     newCoords = this.changeCoordsLShape([[0,1], [2,-1]], oldCoords);   // 41, i+1, k-1
-    else if (xOdd && yOdd && zEven)     newCoords = this.changeCoordsLShape([[0,-1], [2,1]], oldCoords);   // 42, i-1, k+1
-    else if (xOdd && yOdd && zOdd)      newCoords = this.changeCoordsLShape([[0,1], [2,1]], oldCoords);    // 43, i+1, k+1
+
+    if (
+            (xZero && yZero && zZero) || (xZero && yEven && zOdd1) ||
+            (xEven && yZero && zOdd2) || (xEven && yEven && zEven)
+        )
+        newCoords = this.changeCoordsLShape([[0,1],[1,1]], oldCoords); // i+1, j+1
+    else if (
+            (xZero && yZero && zOdd1) || (xZero && yEven && zZero) ||
+            (xEven && yZero && zEven) || (xEven && yEven && zOdd2)
+        )
+        newCoords = this.changeCoordsLShape([[0,1], [1,-1]], oldCoords); // i+1, j-1
+    else if (
+            (xZero && yZero && zEven) || (xZero && yEven && zOdd2) ||
+            (xEven && yZero && zOdd1) || (xEven && yEven && zZero)
+        )
+        newCoords = this.changeCoordsLShape([[0,-1], [1,-1]], oldCoords); // i-1, j-1
+    else if (
+            (xZero && yZero && zOdd2) || (xZero && yEven && zEven) ||
+            (xEven && yZero && zZero) || (xEven && yEven && zOdd1)
+        )
+        newCoords = this.changeCoordsLShape([[0,-1], [1,1]], oldCoords); // i-1, j+1
+
+
+    else if (
+            (xZero && yOdd1 && zZero) || (xZero && yOdd2 && zOdd1) ||
+            (xOdd1 && yOdd1 && zOdd2) || (xOdd1 && yOdd2 && zEven) ||
+            (xOdd1 && yOdd1 && zEven) || (xOdd1 && yOdd2 && zOdd2) ||
+            (xOdd2 && yOdd1 && zOdd1) || (xOdd2 && yOdd2 && zZero)
+        )
+        newCoords = this.changeCoordsLShape([[0,1], [2,-1]], oldCoords); // i+1, k-1
+    else if (
+            (xZero && yOdd1 && zOdd1) || (xZero && yOdd2 && zZero) ||
+            (xOdd1 && yOdd1 && zZero) || (xOdd1 && yOdd2 && zOdd1) ||
+            (xEven && yOdd1 && zOdd2) || (xEven && yOdd2 && zEven) ||
+            (xOdd2 && yOdd1 && zEven) || (xOdd2 && yOdd2 && zOdd2)
+        )
+        newCoords = this.changeCoordsLShape([[0,1], [2,1]], oldCoords); // i+1, k+1
+    else if (
+            (xZero && yOdd1 && zEven) || (xZero && yOdd2 && zOdd2) ||
+            (xOdd1 && yOdd1 && zOdd1) || (xOdd1 && yOdd2 && zZero) ||
+            (xEven && yOdd1 && zZero) || (xEven && yOdd2 && zOdd1) ||
+            (xOdd1 && yOdd2 && zOdd1) || (xOdd2 && yOdd2 && zEven)
+        )
+        newCoords = this.changeCoordsLShape([[0,-1], [2,1]], oldCoords); // i-1, k+1
+    else if (
+            (xZero && yOdd1 && zOdd2) || (xZero && yOdd2 && zEven) ||
+            (xOdd1 && yOdd1 && zEven) || (xOdd1 && yOdd2 && zOdd2) ||
+            (xEven && yOdd1 && zOdd1) || (xEven && yOdd2 && zZero) ||
+            (xOdd2 && yOdd1 && zZero) || (xOdd2 && yOdd2 && zOdd1)
+        )
+        newCoords = this.changeCoordsLShape([[0,-1], [2,-1]], oldCoords); // i-1, k-1
+    
+
+    else if (
+            (xOdd1 && yZero && zZero) || (xOdd1 && yEven && zOdd1) ||
+            (xOdd2 && yZero && zOdd2) || (xOdd2 && yEven && zEven)
+        )
+        newCoords = this.changeCoordsLShape([[1,1], [2,1]], oldCoords); // j+1, k+1
+    else if (
+            (xOdd1 && yZero && zOdd1) || (xOdd1 && yEven && zZero) ||
+            (xOdd2 && yZero && zEven) || (xOdd2 && yEven && zOdd2)
+        )
+        newCoords = this.changeCoordsLShape([[1,-1], [2,1]], oldCoords); // j-1, k+1
+    else if (
+            (xOdd1 && yZero && zEven) || (xOdd1 && yEven && zOdd2) ||
+            (xOdd2 && yZero && zOdd1) || (xOdd2 && yEven && zZero)
+        )
+        newCoords = this.changeCoordsLShape([[1,-1], [2,-1]], oldCoords); // j-1, k-1
+    else if (
+            (xOdd1 && yZero && zOdd2) || (xOdd1 && yEven && zEven) ||
+            (xOdd2 && yZero && zZero) || (xOdd2 && yEven && zOdd1)
+        )
+        newCoords = this.changeCoordsLShape([[1,1], [2,-1]], oldCoords); // j+1, k-1
+
 
     didUpdateRotation = !(newCoords === oldCoords); 
     
@@ -307,6 +366,7 @@ Triomino.prototype.render = function(mv) {
         mv = this.translate(mv);
         mv = this.rotate(mv);
         this.cube.render(mv);
+        this.mvs[1] = mv;
     mv = mvStack.pop();
     mvStack.push(mv);   // top cube
         mv = this.drop(mv);
@@ -314,6 +374,7 @@ Triomino.prototype.render = function(mv) {
         mv = this.rotate(mv);
         mv = mult(mv, translate(0.0, 0.4, 0.0));
         this.cube.render(mv);
+        this.mvs[0] = mv;
     mv = mvStack.pop();
     mvStack.push(mv);   // btm cube
         mv = this.drop(mv);
@@ -322,6 +383,7 @@ Triomino.prototype.render = function(mv) {
         mv = this.LShape ? mult(mv, translate(0.4, 0.0, 0.0)) : 
                     mult(mv, translate(0.0, -0.4, 0.0));
         this.cube.render(mv);
+        this.mvs[2] = mv;
     mv = mvStack.pop();
 };
 
