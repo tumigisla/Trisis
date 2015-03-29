@@ -1,5 +1,3 @@
-var crntHeights;
-
 function Triomino(descr) {
     for (var property in descr)
         this[property] = descr[property];
@@ -24,10 +22,6 @@ function Triomino(descr) {
     this.btmCoords = this.LShape ? [18, 4 , 3] : [17, 3, 3];
 
     this.crntCoords = [this.topCoords, this.midCoords, this.btmCoords];
-
-    crntHeights = this.LShape ? [19, 18, 18] : [19, 18, 17];
-
-    this.mvs = [[],[],[]];
 }
 
 Triomino.prototype.ROT_UPDATE_STEPS = 15;
@@ -189,6 +183,36 @@ Triomino.prototype.checkRotations = function() {
     return didUpdateRotation;
 };
 
+// dims is and array of two dimensions.
+// f.ex. dims = [[0,1], [1,1]]
+// indicates i+1 and j+1.
+// 0,1,2 is i,j,k (y,x,z)
+Triomino.prototype.changeCoordsLShape = function(dims, coords) {
+
+    var tmpCoords = [[], coords[1], []];
+    
+    var dim0 = dims[0],
+        dim1 = dims[1];
+
+    for (var i = 0; i < coords.length; i++) {
+        if (i === dim0[0]) {
+            tmpCoords[0][i] = coords[1][i] + dim0[1];
+            tmpCoords[2][i] = coords[1][i];
+        }
+        else if (i === dim1[0]) {
+            tmpCoords[0][i] = coords[1][i];
+            tmpCoords[2][i] = coords[1][i] + dim1[1];
+        }
+        else {
+            tmpCoords[0][i] = coords[1][i];
+            tmpCoords[2][i] = coords[1][i];
+        }
+    }
+
+    if (this.insideBounds(tmpCoords)) return tmpCoords;
+    return coords;
+};
+
 Triomino.prototype.lShapeRot = function() {
 
     var xRot = crntCubeRotation[0] % 360,
@@ -296,86 +320,8 @@ Triomino.prototype.lShapeRot = function() {
     if (!didUpdateRotation) crntCubeRotation = crntCubeRotationBackup;
 };
 
-// dims is and array of two dimensions.
-Triomino.prototype.changeCoordsLShape = function(dims, coords) {
-
-    var tmpCoords = [[], coords[1], []];
-    
-    var dim0 = dims[0],
-        dim1 = dims[1];
-
-    for (var i = 0; i < coords.length; i++) {
-        if (i === dim0[0]) {
-            tmpCoords[0][i] = coords[1][i] + dim0[1];
-            tmpCoords[2][i] = coords[1][i];
-        }
-        else if (i === dim1[0]) {
-            tmpCoords[0][i] = coords[1][i];
-            tmpCoords[2][i] = coords[1][i] + dim1[1];
-        }
-        else {
-            tmpCoords[0][i] = coords[1][i];
-            tmpCoords[2][i] = coords[1][i];
-        }
-    }
-
-    if (this.insideBounds(tmpCoords)) return tmpCoords;
-    return coords;
-};
-
-Triomino.prototype.regularShapeRot = function(xRot, yRot, zRot) {
-    var xTurning = xRot === 90 || xRot === 270,
-        yTurning = yRot === 90 || yRot === 270,
-        zTurning = zRot === 90 || zRot === 270;
-
-    var oldCoords = this.crntCoords.slice(0);
-    var newCoords = oldCoords.slice(0);
-
-    if (xTurning) {
-        if (yTurning) {
-            if (zTurning)   newCoords = this.changeCoords(0, oldCoords);   // i +- 1
-            else            newCoords = this.changeCoords(2, oldCoords);   // k +- 1
-        }
-        else if (zTurning)  newCoords = this.changeCoords(1, oldCoords);   // j +- 1
-        else                newCoords = this.changeCoords(2, oldCoords);   // k +- 1
-    }
-    else if (yTurning) {
-        if (zTurning)       newCoords = this.changeCoords(2, oldCoords);   // k +- 1
-        else                newCoords = this.changeCoords(0, oldCoords);   // i +- 1
-    }
-    else if (zTurning)      newCoords = this.changeCoords(1, oldCoords);   // j +- 1
-
-    else { // 0  or 180 rotations
-        newCoords = this.changeCoords(0, oldCoords);
-    }
-
-    didUpdateRotation = !(newCoords === oldCoords); 
-
-    this.crntCoords = newCoords ? newCoords : oldCoords;
-
-    //console.log(didUpdateRotation);
-
-    if (!didUpdateRotation) crntCubeRotation = crntCubeRotationBackup;
-};
-
-Triomino.prototype.insideBounds = function(coords) {
-    for (var c = 0; c < coords.length; c++) {
-        var inBounds_i = coords[c][0] >= 0 &&
-                         coords[c][0] <= 19,
-            inBounds_j = coords[c][1] >= 0 &&
-                         coords[c][1] <= 5,
-            inBounds_k = coords[c][2] >= 0 &&
-                         coords[c][2] <= 5;
-
-        if (!(inBounds_i && inBounds_j && inBounds_k)) {
-            return false;
-        }
-    }
-    return true;
-};
-
 // dim is 0, 1, 2 indicating i, j, k
-Triomino.prototype.changeCoords = function(dim, coords) {
+Triomino.prototype.changeCoordsRegShape = function(dim, coords) {
     // Leave out the mid cube because it's
     // coords are always the same when rotating.
     // The other cubes always change relative
@@ -399,6 +345,55 @@ Triomino.prototype.changeCoords = function(dim, coords) {
     return coords;
 };
 
+
+Triomino.prototype.regularShapeRot = function(xRot, yRot, zRot) {
+    var xTurning = xRot === 90 || xRot === 270,
+        yTurning = yRot === 90 || yRot === 270,
+        zTurning = zRot === 90 || zRot === 270;
+
+    var oldCoords = this.crntCoords.slice(0);
+    var newCoords = oldCoords.slice(0);
+
+    if (xTurning) {
+        if (yTurning) {
+            if (zTurning)   newCoords = this.changeCoordsRegShape(0, oldCoords);   // i +- 1
+            else            newCoords = this.changeCoordsRegShape(2, oldCoords);   // k +- 1
+        }
+        else if (zTurning)  newCoords = this.changeCoordsRegShape(1, oldCoords);   // j +- 1
+        else                newCoords = this.changeCoordsRegShape(2, oldCoords);   // k +- 1
+    }
+    else if (yTurning) {
+        if (zTurning)       newCoords = this.changeCoordsRegShape(2, oldCoords);   // k +- 1
+        else                newCoords = this.changeCoordsRegShape(0, oldCoords);   // i +- 1
+    }
+    else if (zTurning)      newCoords = this.changeCoordsRegShape(1, oldCoords);   // j +- 1
+
+    else { // 0  or 180 rotations
+        newCoords = this.changeCoordsRegShape(0, oldCoords);
+    }
+
+    didUpdateRotation = !(newCoords === oldCoords); 
+
+    this.crntCoords = newCoords ? newCoords : oldCoords;
+
+    if (!didUpdateRotation) crntCubeRotation = crntCubeRotationBackup;
+};
+
+Triomino.prototype.insideBounds = function(coords) {
+    for (var c = 0; c < coords.length; c++) {
+        var inBounds_i = coords[c][0] >= 0 &&
+                         coords[c][0] <= 19,
+            inBounds_j = coords[c][1] >= 0 &&
+                         coords[c][1] <= 5,
+            inBounds_k = coords[c][2] >= 0 &&
+                         coords[c][2] <= 5;
+
+        if (!(inBounds_i && inBounds_j && inBounds_k)) {
+            return false;
+        }
+    }
+    return true;
+};
 
 Triomino.prototype.render = function(mv) {
     var mvStack = [];
