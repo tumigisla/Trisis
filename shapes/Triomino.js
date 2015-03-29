@@ -89,6 +89,8 @@ Triomino.prototype.update = function(du) {
     }
 
     // Dropping
+
+    var isColliding = this.collideCheck();
     
     if (this.isDropping) {
         this.dropLevel -= (0.4 / this.DROP_UPDATE_STEPS) * du;
@@ -97,27 +99,15 @@ Triomino.prototype.update = function(du) {
         // clamp to last index
         this.dropLevel = util.roundDown(this.dropLevel, -0.4);
     }
-    // Grid coords update for dropping
-
-    var scaleDL = this.dropLevel / -0.4;
-    var intDL = Math.floor(scaleDL) + 1;
     
-    var checkCoords = [
-        [this.crntCoords[0][0], this.crntCoords[0][1], this.crntCoords[0][2]],
-        [this.crntCoords[1][0], this.crntCoords[1][1], this.crntCoords[1][2]],
-        [this.crntCoords[2][0], this.crntCoords[2][1], this.crntCoords[2][2]]
-    ];
-    checkCoords[0][0] -= intDL;
-    checkCoords[1][0] -= intDL;
-    checkCoords[2][0] -= intDL;
+    var collide = this.collideCheck();
+    if (!isColliding && collide) {
+        console.log("collide", collide);
 
-    // check for floor hit
-    if (checkCoords[0][0] < 0, checkCoords[1][0] < 0, checkCoords[2][0] < 0) {
-        console.log("floor hit");
-    } else if ( bricks.check(checkCoords) ) {
-        console.log("blob hit");
     }
 
+
+    // Grid coords update for dropping
     /*
     for (var coords of this.crntCoords) {
         var index = this.crntCoords.indexOf(coords);
@@ -126,6 +116,32 @@ Triomino.prototype.update = function(du) {
     */
 };
 
+Triomino.prototype.collideCheck = function () {
+    var scaleDL = this.dropLevel / -0.4;
+
+    var checkCoords = [
+        [this.crntCoords[0][0], this.crntCoords[0][1], this.crntCoords[0][2]],
+        [this.crntCoords[1][0], this.crntCoords[1][1], this.crntCoords[1][2]],
+        [this.crntCoords[2][0], this.crntCoords[2][1], this.crntCoords[2][2]]
+    ];
+    checkCoords[0][0] -= Math.ceil(scaleDL);
+    checkCoords[1][0] -= Math.ceil(scaleDL);
+    checkCoords[2][0] -= Math.ceil(scaleDL);
+
+    if (keys["Y".charCodeAt(0)]) {
+        console.log("checkCoords", checkCoords);
+    }
+
+    // check for floor hit
+    if (checkCoords[0][0] < 0, checkCoords[1][0] < 0, checkCoords[2][0] < 0) {
+        //console.log("floor hit");
+        return "floor";
+    }
+    if ( bricks.check(checkCoords) ) {
+        //console.log("blob hit");
+        return "blob";
+    }
+}
 
 Triomino.prototype.updateGridCoords = function() {
     var shouldUpdate = [true, true, true];
