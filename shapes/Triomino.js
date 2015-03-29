@@ -94,9 +94,30 @@ Triomino.prototype.update = function(du) {
         this.dropLevel -= (0.4 / this.DROP_UPDATE_STEPS) * du;
     }
     else {
-        this.dropLevel -= (this.dropLevel % (-0.4));  // clamp to last index
+        // clamp to last index
+        this.dropLevel = util.roundDown(this.dropLevel, -0.4);
     }
     // Grid coords update for dropping
+
+    var scaleDL = this.dropLevel / -0.4;
+    var intDL = Math.floor(scaleDL) + 1;
+    
+    var checkCoords = [
+        [this.crntCoords[0][0], this.crntCoords[0][1], this.crntCoords[0][2]],
+        [this.crntCoords[1][0], this.crntCoords[1][1], this.crntCoords[1][2]],
+        [this.crntCoords[2][0], this.crntCoords[2][1], this.crntCoords[2][2]]
+    ];
+    checkCoords[0][0] -= intDL;
+    checkCoords[1][0] -= intDL;
+    checkCoords[2][0] -= intDL;
+
+    // check for floor hit
+    if (checkCoords[0][0] < 0, checkCoords[1][0] < 0, checkCoords[2][0] < 0) {
+        console.log("floor hit");
+    } else if ( bricks.check(checkCoords) ) {
+        console.log("blob hit");
+    }
+
     /*
     for (var coords of this.crntCoords) {
         var index = this.crntCoords.indexOf(coords);
