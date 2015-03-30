@@ -61,6 +61,12 @@ var util = {
         if (roundDownTo === 0)
             return number;
         return Math.floor(number / roundDownTo) * roundDownTo;
-    }
+    },
+
+    clampRange: function(value, lowBound, highBound) {
+        if (value < lowBound) return lowBound;
+        if (value > highBound) return highBound;
+        return value;
+    },
 
 };
