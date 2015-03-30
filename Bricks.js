@@ -168,6 +168,9 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
 };
 
 Bricks.prototype.clearLevel = function(level) {
+    
+    score += 10;
+    document.getElementById("scoreText").innerHTML = score;
 
     // Empty the full level of the blob thing.
     for (var j = 0; j < this.blob[level].length; j++) {
@@ -203,8 +206,7 @@ Bricks.prototype.clearLevel = function(level) {
                         this.blob[aLevel][j][k] = undefined;
                     }
                 }
-            }
-
+            }   
             // Drop all the bricks from higher levels that are being
             // rendered down by one.
             for (var j = 0; j < this.allBricks.length; j++) {

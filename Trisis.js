@@ -29,6 +29,8 @@ var arrowPressIndex;
 
 var keys = [];
 
+var score = 0;
+
 // Setup the necessities
 var setup = function() {
     canvas = document.getElementById("gl-canvas");
