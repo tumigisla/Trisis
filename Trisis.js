@@ -75,7 +75,7 @@ var loadTextures = function() {
     textureImgs.push(document.getElementById("circuitBoard-blue"));
     textureImgs.push(document.getElementById("circuitBoard-red"));
     textureImgs.push(document.getElementById("circuitBoard-green"));
-    textureImgs.push(document.getElementById("grid-white"));
+    textureImgs.push(document.getElementById("shadow"));
     textureImgs.push(document.getElementById("grid-box"));
 };
 
