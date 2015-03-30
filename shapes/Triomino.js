@@ -8,7 +8,7 @@ function Triomino(descr) {
 Triomino.prototype.init = function() {
 
     this.LShape = util.coinFlip();
-
+    
     this.rotations = [0.0, 0.0, 0.0];
     this.rotUpdateBuffers = [0.0, 0.0, 0.0];
 
@@ -19,6 +19,7 @@ Triomino.prototype.init = function() {
     this.isDropping = false;
     this.dropLevel = 0.0;
 
+    this.color = this.LShape ? [ 0.0, 0.0, 1.0, 1.0 ] : [ 1.0, 0.0, 0.0, 1.0 ];
     this.image = this.LShape ? textureImgs[0] : textureImgs[1];
 
     if (this.cube)
@@ -49,12 +50,12 @@ Triomino.prototype.init = function() {
 
     this.ROT_UPDATE_STEPS = 15;
     this.TRANSL_UPDATE_STEPS = 15;
-    this.DROP_UPDATE_STEPS = 60;
+    this.DROP_UPDATE_STEPS = 120;
     this.START_DROPPING_CDOWN = 60;
 };
 
 Triomino.prototype.build = function() {
-     this.cube = new Cube({image : this.image});
+     this.cube = new Cube({image : this.image, color : this.color});
 };
 
 Triomino.prototype.update = function(du) {
@@ -145,16 +146,20 @@ Triomino.prototype.collideCheck = function () {
 
     // check for floor hit
     if (checkCoords[0][0] < 0, checkCoords[1][0] < 0, checkCoords[2][0] < 0) {
-        checkCoords[0][0] += 1;
-        checkCoords[1][0] += 1;
-        checkCoords[2][0] += 1;
+        while (checkCoords[0][0] < 0 || checkCoords[1][0] < 0 || checkCoords[2][0] < 0) {
+            checkCoords[0][0] += 1;
+            checkCoords[1][0] += 1;
+            checkCoords[2][0] += 1;
+        }
         this.mergeWithBlob(checkCoords);
         this.init();
     }
     else if ( bricks.check(checkCoords) ) {
-        checkCoords[0][0] += 1;
-        checkCoords[1][0] += 1;
-        checkCoords[2][0] += 1;
+        while (checkCoords[0][0] < 0 || checkCoords[1][0] < 0 || checkCoords[2][0] < 0) {
+            checkCoords[0][0] += 1;
+            checkCoords[1][0] += 1;
+            checkCoords[2][0] += 1;
+        }
         this.mergeWithBlob(checkCoords);
         this.init();
     }

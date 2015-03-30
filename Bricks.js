@@ -2,10 +2,29 @@
 // ??
 /////////////////////////////////////////////////////////////////
 
+
+
 function Bricks(descr) {
     for(var property in descr)
         this[property] = descr[property];
+
+    this.allBricks = [];
 }
+
+Bricks.prototype.cube = new Cube(
+        {
+            vert : [
+                vec3(-1.4, -7.4, -1.0),
+                vec3(-1.4, -7.0, -1.0),
+                vec3(-1.0, -7.0, -1.0),
+                vec3(-1.0, -7.4, -1.0),
+                vec3(-1.4, -7.4, -1.4),
+                vec3(-1.4, -7.0, -1.4),
+                vec3(-1.0, -7.0, -1.4),
+                vec3(-1.0, -7.4, -1.4)
+            ]
+        }
+    );
 
 Bricks.prototype.build = function() {
     this.blob = new Array(20);
@@ -18,14 +37,13 @@ Bricks.prototype.build = function() {
 };
 
 Bricks.prototype.render = function(mv) {
-    for (var i = 0; i < this.blob.length; i++) {
-        for (var j = 0; j < this.blob[i].length; j++) {
-            for (var k = 0; k < this.blob[i][j].length; k++) {
-                if (this.blob[i][j][k]) {
-                    this.blob[i][j][k].render(mv);
-                }
-            }
-        }
+    var mvStack = [];
+    for (var brick of this.allBricks) {
+        mvStack.push(mv);
+            mv = mult(mv, translate(brick.translations));
+            this.cube.image = brick.tex;
+            this.cube.render(mv);
+        mv = mvStack.pop();
     }
 };
 
@@ -40,7 +58,7 @@ Bricks.prototype.add = function (y,x,z,tex) {
                 tex : tex
             }
         );
-        c1.build();
+        this.allBricks.push(c1);
 
         this.blob[y][x][z] = c1;
     } else {

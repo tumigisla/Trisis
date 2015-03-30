@@ -129,7 +129,7 @@ var checkKeyInputs = function() {
         crntCubeRotation[0] += 90;
         if (!triomino.checkRotations()) return;
 
-        udateRotPerm(0, 0);
+        updateRotPerm(0, 0);
     }
     if (keys[90]) { // z
         if (!availAxisRot[0]) return;
@@ -190,12 +190,13 @@ var checkKeyInputs = function() {
     // Faster dropping
     if (keys[32]) {
         if (triomino.DROP_UPDATE_STEPS > 10)
-            triomino.DROP_UPDATE_STEPS -= 1.0;
+            triomino.DROP_UPDATE_STEPS -= 3.0;
     }
 
     else
         if (triomino.DROP_UPDATE_STEPS < 60)
-            triomino.DROP_UPDATE_STEPS += 5.0;
+            triomino.DROP_UPDATE_STEPS += 10.0;
+
 };
 
 var updateTranslPerm = function(change, i, j) {

@@ -51,6 +51,7 @@ var setup = function() {
 
     bricks = new Bricks();
     bricks.build();
+    bricks.cube.loadToGPU();
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
