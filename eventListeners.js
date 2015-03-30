@@ -190,12 +190,12 @@ var checkKeyInputs = function() {
     // Faster dropping
     if (keys[32]) {
         if (triomino.DROP_UPDATE_STEPS > 10)
-            triomino.DROP_UPDATE_STEPS -= 3.0;
+            triomino.DROP_UPDATE_STEPS -= 7.0;
     }
 
     else
         if (triomino.DROP_UPDATE_STEPS < 60)
-            triomino.DROP_UPDATE_STEPS += 10.0;
+            triomino.DROP_UPDATE_STEPS += 20.0;
 
 };
 

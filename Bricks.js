@@ -130,6 +130,16 @@ Bricks.prototype.levelFull = function(level) {
             if (!this.blob[level][j][k]) return false;
         }
     }
+    this.clearLevel(level);
+    return true;
+};
+
+Bricks.prototype.levelEmpty = function(level) {
+    for (var j = 0; j < this.blob[level].length; j++) {
+        for (var k = 0; k < this.blob[level][j].length; k++) {
+            if (this.blob[level][j][k]) return false;
+        }
+    }
     return true;
 };
 
@@ -138,4 +148,73 @@ Bricks.prototype.update = function() {
         if (this.levelFull(lvl)) 
             console.log(lvl + " level full");
     }
+};
+
+Bricks.prototype.clearLevel = function(level) {
+
+    // Empty the full level of the blob thing.
+    for (var j = 0; j < this.blob[level].length; j++) {
+        for (var k = 0; k < this.blob[level][j].length; k++) {
+            this.blob[level][j][k] = undefined;
+        }
+    }
+
+    // Make sure the bricks aren't rendered.
+    for (var i = 0; i < this.allBricks.length; i++) {
+        var aBrick = this.allBricks[i];
+        if (aBrick.y === level) {
+            this.allBricks.splice(i,1);
+            i--;
+        }
+    }
+
+    // Then make all the bricks of higher levels drop down by one.
+    for (var i = 0; i < this.levelsWithCubes.length; i++) {
+        var aLevel = this.levelsWithCubes[i];
+        if (aLevel > level && aLevel > 0) {
+            console.log(aLevel);
+            // Drop all the bricks in the blob down by one.
+            for (var j = 0; j < this.blob[aLevel].length; j++) {
+                for (var k = 0; k < this.blob[aLevel][j].length; k++) {
+                    if (this.blob[aLevel][j][k]) {
+                        this.blob[aLevel-1][j][k] = new Brick({
+                            y : this.blob[aLevel][j][k].y - 1,
+                            x : this.blob[aLevel][j][k].x,
+                            z : this.blob[aLevel][j][k].z,
+                            tex : this.blob[aLevel][j][k].tex
+                        });
+                        this.blob[aLevel][j][k] = undefined;
+                    }
+                }
+            }
+
+            // Drop all the bricks from higher levels that are being
+            // rendered down by one.
+            for (var j = 0; j < this.allBricks.length; j++) {
+                var aBrick = this.allBricks[j];
+                if (aBrick.y === aLevel) {
+                    var tmpBrick = aBrick;
+                    this.allBricks.splice(j, 1);
+                    j--;
+                    this.add(tmpBrick.y - 1, tmpBrick.x, tmpBrick.z, tmpBrick.tex);
+                }
+            }
+
+
+            for (var br of this.allBricks) {
+                if (br.y === aLevel) {
+                    
+                }
+            }
+        }
+    }
+
+    this.updateLevelsWithCubes();
+};
+
+Bricks.prototype.updateLevelsWithCubes = function() {
+    this.levelsWithCubes = [];
+    for (var lvl = 0; lvl < 20; lvl++)
+        if (!this.levelEmpty(lvl))
+            this.levelsWithCubes.push(lvl);
 };

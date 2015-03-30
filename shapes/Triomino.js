@@ -168,8 +168,10 @@ Triomino.prototype.collideCheck = function () {
 Triomino.prototype.mergeWithBlob = function(coords) {
     for (var co of coords) {
         bricks.add(co[0], co[1], co[2], this.image);
-        if (!util.contains(bricks.levelsWithCubes, co[0]))
+        if (!util.contains(bricks.levelsWithCubes, co[0])) {
             bricks.levelsWithCubes.push(co[0]);
+            bricks.levelsWithCubes.sort();
+        }
     }
 };
 
