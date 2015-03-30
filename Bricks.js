@@ -143,16 +143,16 @@ Bricks.prototype.BUMP_DOWN_STEPS = 60;
 
 Bricks.prototype.maybeBumpDownBricks = function(du) {
     if (bumpDownBricks) {
-        if (dumpTime > 0) {
+        if (dumpTime > 0) { // bump down the current ones in steps
             for (var br of bricksToBump) {
                 br.translations[1] -= (0.4 / this.BUMP_DOWN_STEPS) * du;
                 dumpTime -= du; 
             }       
         }
-        else {
+        else { // when these steps are finished, delete the old ones 
+               // and insert new bricks with the y index 1 lower.
             dumpTime = 60;
             bumpDownBricks = false;
-            bricksToBump = [];
             for (var i = 0; i < bricksToBump.length; i++) {
                 var index = this.allBricks.indexOf(bricksToBump[i]);
                 this.allBricks.splice(index, 1);
@@ -160,6 +160,8 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
             for (var i = 0; i < bricksToReallyAdd.length; i++) {
                 this.allBricks.push(bricksToReallyAdd[i]);
             }
+            bricksToBump = [];
+            bricksToReallyAdd = [];
         }
     }
     this.updateLevelsWithCubes();
@@ -205,29 +207,22 @@ Bricks.prototype.clearLevel = function(level) {
 
             // Drop all the bricks from higher levels that are being
             // rendered down by one.
-            
             for (var j = 0; j < this.allBricks.length; j++) {
                 var aBrick = this.allBricks[j];
                 if (aBrick.y === aLevel) {
                     bumpDownBricks = true;
                     bricksToBump.push(aBrick);
                     var tmpBrick = aBrick;
-                    // Delete the old one.
-                    //this.allBricks.splice(j, 1);
-                    //j--;
-                    // Insert the new one.
                     bricksToReallyAdd.push(new Brick({
                         x : tmpBrick.x,
                         y : tmpBrick.y - 1,
                         z : tmpBrick.z,
                         tex : tmpBrick.tex
                     }))
-                    //this.add(tmpBrick.y - 1, tmpBrick.x, tmpBrick.z, tmpBrick.tex);
                 }
             }
         }
     }
-    //this.updateLevelsWithCubes();
 };
 
 Bricks.prototype.updateLevelsWithCubes = function() {

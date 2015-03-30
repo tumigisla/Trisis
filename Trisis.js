@@ -105,7 +105,7 @@ var renderSimulation = function() {
 
     var mv = lookAt(
         vec3(0.0, 0.0, zDist), //  eye
-        vec3(0.0, -1.0, 0.0),  //  at
+        vec3(0.0, -3.5, 0.0),  //  at
         vec3(0.0, 1.0, 0.0)    //  up
     );
     mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
