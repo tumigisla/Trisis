@@ -83,7 +83,7 @@ var loadTextures = function() {
     textureImgs.push(document.getElementById("circuitBoard-blue"));
     textureImgs.push(document.getElementById("circuitBoard-red"));
     textureImgs.push(document.getElementById("circuitBoard-green"));
-    textureImgs.push(document.getElementById("grid-white"));
+    textureImgs.push(document.getElementById("shadow"));
     textureImgs.push(document.getElementById("grid-box"));
 };
 
@@ -97,8 +97,12 @@ var updateSimulation = function(du) {
 var renderSimulation = function() {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    var mv = lookAt( vec3(1.0, 1.0, zDist), vec3(0.0, -3.5, 0.0), vec3(0.0, 1.0, 0.0) );
-    mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
+    var mv = lookAt(
+        vec3(0.0, 0.0, zDist), //  eye
+        vec3(0.0, -3.5, 0.0),  //  at
+        vec3(0.0, 1.0, 0.0)    //  up
+    );
+    //mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
     mv = mult( mv, rotate( parseFloat(spinY), [0, 1, 0] ) );
     
     triomino.render(mv);

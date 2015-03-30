@@ -1,4 +1,4 @@
-var NOMINAL_UPDATE_INTERVAL = 16.666;
+var NOMINAL_UPDATE_INTERVAL = 25;
 
 var update = function(dt) {
     var original_dt = dt;

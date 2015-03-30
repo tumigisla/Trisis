@@ -16,6 +16,7 @@ function Grid(descr) {
     this.gridSize = 0.4;
     
     this.points = [
+        // side
         vec3(-1.4, -7.4, 1.0),
         vec3( 1.0, -7.4, 1.0),
         vec3( 1.0,  0.6, 1.0),
@@ -23,6 +24,7 @@ function Grid(descr) {
         vec3(-1.4,  0.6, 1.0),
         vec3(-1.4, -7.4, 1.0),
         
+        // bottom
         vec3(-1.4, -7.4, -1.4),
         vec3( 1.0, -7.4, -1.4),
         vec3( 1.0, -7.4,  1.0),
@@ -32,6 +34,7 @@ function Grid(descr) {
     ];
 
     this.texCoords = [
+        // side
         vec2( 0.0, 0.0 ),
         vec2( 6.0, 0.0 ),
         vec2( 6.0, 20.0 ),
@@ -39,6 +42,7 @@ function Grid(descr) {
         vec2( 0.0, 20.0 ),
         vec2( 0.0, 0.0 ),
 
+        // bottom
         vec2( 0.0, 0.0 ),
         vec2( 6.0, 0.0 ),
         vec2( 6.0, 6.0 ),
@@ -55,6 +59,7 @@ Grid.prototype.render = function (mv) {
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
     gl.cullFace(gl.FRONT);
 
+    // render sides
     this.useTexture();
     this.useBuffers();
     this.drawArrays(mv, 0, 6);
@@ -78,6 +83,7 @@ Grid.prototype.render = function (mv) {
 
     gl.disable(gl.CULL_FACE);
 
+    // render bottom
     this.drawArrays(mv, 6, 6);
 
     gl.enable(gl.CULL_FACE);
