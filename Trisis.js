@@ -91,7 +91,7 @@ var loadTextures = function() {
 var updateSimulation = function(du) {
     checkKeyInputs();
     triomino.update(du);
-    bricks.update();
+    bricks.update(du);
 };
 
 var renderSimulation = function() {
@@ -102,7 +102,7 @@ var renderSimulation = function() {
         vec3(0.0, -3.5, 0.0),  //  at
         vec3(0.0, 1.0, 0.0)    //  up
     );
-    //mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
+    mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
     mv = mult( mv, rotate( parseFloat(spinY), [0, 1, 0] ) );
     
     triomino.render(mv);
