@@ -2,7 +2,7 @@
 var canvas, gl, program, texture;
 
 var movement = false;
-var spinX = 0;
+var spinX = 30;
 var spinY = 0;
 var origX;
 var origY;
@@ -16,6 +16,7 @@ var vPosition, vTexCoord;
 var textureImgs = [];
 
 var triomino;
+var shadow;
 var grid;
 var bricks;
 
@@ -45,6 +46,10 @@ var setup = function() {
     triomino = new Triomino();
     triomino.build();
     triomino.cube.loadToGPU();
+
+    shadow = new Shadow();
+    shadow.init();
+    shadow.loadToGPU();
 
     grid = new Grid();
     grid.loadToGPU();
@@ -91,6 +96,7 @@ var loadTextures = function() {
 var updateSimulation = function(du) {
     checkKeyInputs();
     triomino.update(du);
+    shadow.update(triomino.crntCoords);
     bricks.update();
 };
 
@@ -99,12 +105,13 @@ var renderSimulation = function() {
 
     var mv = lookAt(
         vec3(0.0, 0.0, zDist), //  eye
-        vec3(0.0, -3.5, 0.0),  //  at
+        vec3(0.0, -1.0, 0.0),  //  at
         vec3(0.0, 1.0, 0.0)    //  up
     );
-    //mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
+    mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
     mv = mult( mv, rotate( parseFloat(spinY), [0, 1, 0] ) );
     
+    shadow.render(mv);
     triomino.render(mv);
     grid.render(mv);
     bricks.render(mv);
