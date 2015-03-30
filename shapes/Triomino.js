@@ -1,6 +1,10 @@
 function Triomino(descr) {
     for (var property in descr)
         this[property] = descr[property];
+    
+    this.shadow = new Shadow();
+    this.shadow.init();
+    this.shadow.loadToGPU();
 
     this.init();
 }
@@ -125,25 +129,13 @@ Triomino.prototype.update = function(du) {
     }
     
     this.collideCheck();
+
+    this.shadow.update(this.getShadowCoords());
 };
 
 
 Triomino.prototype.collideCheck = function () {
-    var scaleDL = this.dropLevel / -0.4;
-
-    var checkCoords = [
-        [this.crntCoords[0][0], this.crntCoords[0][1], this.crntCoords[0][2]],
-        [this.crntCoords[1][0], this.crntCoords[1][1], this.crntCoords[1][2]],
-        [this.crntCoords[2][0], this.crntCoords[2][1], this.crntCoords[2][2]]
-    ];
-
-    checkCoords[0][0] -= Math.ceil(scaleDL);
-    checkCoords[1][0] -= Math.ceil(scaleDL);
-    checkCoords[2][0] -= Math.ceil(scaleDL);
-
-    if (keys["Y".charCodeAt(0)]) {
-        console.log("checkCoords", checkCoords);
-    }
+    var checkCoords = this.getCrntCoords();
 
     // check for floor hit
     if (checkCoords[0][0] < 0, checkCoords[1][0] < 0, checkCoords[2][0] < 0) {
@@ -175,11 +167,8 @@ Triomino.prototype.mergeWithBlob = function(coords) {
     }
 };
 
-
-
-Triomino.prototype.updateGridCoords = function() {
+Triomino.prototype.getCrntCoords = function() {
     var scaleDL = this.dropLevel / -0.4;
-
     var checkCoords = [
         [this.crntCoords[0][0], this.crntCoords[0][1], this.crntCoords[0][2]],
         [this.crntCoords[1][0], this.crntCoords[1][1], this.crntCoords[1][2]],
@@ -190,6 +179,26 @@ Triomino.prototype.updateGridCoords = function() {
     checkCoords[1][0] -= Math.ceil(scaleDL);
     checkCoords[2][0] -= Math.ceil(scaleDL);
 
+    return checkCoords;
+};
+
+Triomino.prototype.getShadowCoords = function() {
+    var scaleDL = this.dropLevel / -0.4;
+    var checkCoords = [
+        [this.crntCoords[0][0], this.crntCoords[0][1], this.crntCoords[0][2]],
+        [this.crntCoords[1][0], this.crntCoords[1][1], this.crntCoords[1][2]],
+        [this.crntCoords[2][0], this.crntCoords[2][1], this.crntCoords[2][2]]
+    ];
+
+    checkCoords[0][0] -= scaleDL;
+    checkCoords[1][0] -= scaleDL;
+    checkCoords[2][0] -= scaleDL;
+
+    return checkCoords;
+};
+
+Triomino.prototype.updateGridCoords = function() {
+    var checkCoords = this.getCrntCoords();
     var shouldUpdate = [true, true, true];
 
     for (var coords of checkCoords) {
@@ -441,6 +450,8 @@ Triomino.prototype.insideBounds = function(coords) {
 };
 
 Triomino.prototype.render = function(mv) {
+    this.shadow.render(mv);
+
     var mvStack = [];
 
     mvStack.push(mv);   // middle cube
