@@ -32,13 +32,7 @@ var translDecisions = translDec.ver0;
 var availAxisTransl = [true, true],     // [x, z]
     availAxisRot = [true, true, true];
 
-var crntDrop = 0.0;
-
-var crntCoords;
-
 var translGridChanges = translCh.ver0;
-
-var updateGridCoords = false;
 
 // 0 = down, 1 = right, 2 = up, 3 = left
 var arrowPressIndex;
@@ -81,8 +75,8 @@ var setup = function() {
 
     // L shape init
     // bricks.add(3, 2, 2, textureImgs[0]);   
-    bricks.add(5, 3, 0, textureImgs[0]);
-    // bricks.add(0, 4, 1, textureImgs[0]);
+    //bricks.add(5, 3, 0, textureImgs[0]);
+    //bricks.add(0, 4, 1, textureImgs[0]);
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);

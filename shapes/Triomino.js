@@ -2,6 +2,11 @@ function Triomino(descr) {
     for (var property in descr)
         this[property] = descr[property];
 
+    this.init();
+}
+
+Triomino.prototype.init = function() {
+
     this.LShape = util.coinFlip();
     //this.LShape = true;
 
@@ -12,10 +17,13 @@ function Triomino(descr) {
     this.translations = [0.0, 0.0]; 
     this.translUpdateBuffers = [0.0, 0.0];
 
-    this.isDropping = false;
+    this.isDropping = true;
     this.dropLevel = 0.0;
 
     this.image = this.LShape ? textureImgs[0] : textureImgs[1];
+
+    if (this.cube)
+        this.cube.image = this.image
 
     this.topCoords = [19, 3, 3];
     this.midCoords = [18, 3, 3];
@@ -24,11 +32,27 @@ function Triomino(descr) {
     this.crntCoords = [this.topCoords, this.midCoords, this.btmCoords];
 
     this.hasLanded = false;
-}
 
-Triomino.prototype.ROT_UPDATE_STEPS = 15;
-Triomino.prototype.TRANSL_UPDATE_STEPS = 15;
-Triomino.prototype.DROP_UPDATE_STEPS = 60;
+    // Globals
+    crntCubeRotation = [0, 0, 0];
+    crntCubeRotationBackup = crntCubeRotation.slice(0);
+    rotationUpdate = [[false, false], [false, false], [false, false]];
+
+    crntCubeTransl = [0.0, 0.0];
+    translUpdate = [[false, false], [false, false]];
+
+    translDecisions = translDec.ver0;
+
+    availAxisTransl = [true, true];     // [x, z]
+    availAxisRot = [true, true, true];
+
+    translGridChanges = translCh.ver0;
+
+    this.ROT_UPDATE_STEPS = 15;
+    this.TRANSL_UPDATE_STEPS = 15;
+    this.DROP_UPDATE_STEPS = 60;
+
+};
 
 Triomino.prototype.build = function() {
      this.cube = new Cube({image : this.image});
@@ -89,7 +113,7 @@ Triomino.prototype.update = function(du) {
     var isColliding = this.collideCheck();
 
     var oldDropLevel = this.dropLevel;
-    
+
     if (this.isDropping) {
         this.dropLevel -= (0.4 / this.DROP_UPDATE_STEPS) * du;
     }
@@ -98,11 +122,7 @@ Triomino.prototype.update = function(du) {
         this.dropLevel = util.roundDown(this.dropLevel, -0.4);
     }
     
-    var collide = this.collideCheck();
-    if (!isColliding && collide) {
-        this.dropLevel = oldDropLevel;
-        //console.log("collide", collide);
-    }
+    this.collideCheck();
 };
 
 Triomino.prototype.collideCheck = function () {
@@ -123,14 +143,27 @@ Triomino.prototype.collideCheck = function () {
 
     // check for floor hit
     if (checkCoords[0][0] < 0, checkCoords[1][0] < 0, checkCoords[2][0] < 0) {
-        //console.log("floor hit");
-        return "floor";
+        checkCoords[0][0] += 1;
+        checkCoords[1][0] += 1;
+        checkCoords[2][0] += 1;
+        this.mergeWithBlob(checkCoords);
+        this.init();
     }
-    if ( bricks.check(checkCoords) ) {
-        //console.log("blob hit");
-        return "blob";
+    else if ( bricks.check(checkCoords) ) {
+        checkCoords[0][0] += 1;
+        checkCoords[1][0] += 1;
+        checkCoords[2][0] += 1;
+        this.mergeWithBlob(checkCoords);
+        this.init();
     }
 }
+
+
+Triomino.prototype.mergeWithBlob = function(coords) {
+    for (var co of coords)
+        bricks.add(co[0], co[1], co[2], this.image);
+};
+
 
 
 Triomino.prototype.updateGridCoords = function() {
@@ -155,7 +188,6 @@ Triomino.prototype.updateGridCoords = function() {
     }
 
     if (bricks.check(checkCoords) || !this.insideBounds(checkCoords)) {
-        console.log("crashing blob from side or crashing the walls");
         return false;
     }
     else {
@@ -342,7 +374,6 @@ Triomino.prototype.changeCoordsRegShape = function(dim, coords) {
         }
     }
 
-    //console.log(dim, tmpCoords);
     if (this.insideBounds(tmpCoords)) return tmpCoords;
     return coords;
 };
