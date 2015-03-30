@@ -83,12 +83,13 @@ var loadTextures = function() {
 var updateSimulation = function(du) {
     checkKeyInputs();
     triomino.update(du);
+    bricks.update();
 };
 
 var renderSimulation = function() {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    var mv = lookAt( vec3(0.0, 0.0, zDist), vec3(0.0, -3.5, 0.0), vec3(0.0, 1.0, 0.0) );
+    var mv = lookAt( vec3(1.0, 1.0, zDist), vec3(0.0, -3.5, 0.0), vec3(0.0, 1.0, 0.0) );
     mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
     mv = mult( mv, rotate( parseFloat(spinY), [0, 1, 0] ) );
     

@@ -7,6 +7,14 @@ var util = {
         return vertices;
     },
 
+    contains : function(A, i) {
+        if (A.length === 0) return false;
+        for (var j = 0; j < A.length; j++)
+            if (A[j] === i)
+                return true;
+        return false;
+    },
+
     scale4 : function(x, y, z) {
         if ( Array.isArray(x) && x.length == 3 ) {
             z = x[2];

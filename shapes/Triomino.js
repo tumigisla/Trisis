@@ -8,7 +8,7 @@ function Triomino(descr) {
 Triomino.prototype.init = function() {
 
     this.LShape = util.coinFlip();
-    
+
     this.rotations = [0.0, 0.0, 0.0];
     this.rotUpdateBuffers = [0.0, 0.0, 0.0];
 
@@ -136,6 +136,7 @@ Triomino.prototype.collideCheck = function () {
         [this.crntCoords[1][0], this.crntCoords[1][1], this.crntCoords[1][2]],
         [this.crntCoords[2][0], this.crntCoords[2][1], this.crntCoords[2][2]]
     ];
+
     checkCoords[0][0] -= Math.ceil(scaleDL);
     checkCoords[1][0] -= Math.ceil(scaleDL);
     checkCoords[2][0] -= Math.ceil(scaleDL);
@@ -155,11 +156,9 @@ Triomino.prototype.collideCheck = function () {
         this.init();
     }
     else if ( bricks.check(checkCoords) ) {
-        while (checkCoords[0][0] < 0 || checkCoords[1][0] < 0 || checkCoords[2][0] < 0) {
-            checkCoords[0][0] += 1;
-            checkCoords[1][0] += 1;
-            checkCoords[2][0] += 1;
-        }
+        checkCoords[0][0] += 1;
+        checkCoords[1][0] += 1;
+        checkCoords[2][0] += 1;
         this.mergeWithBlob(checkCoords);
         this.init();
     }
@@ -167,8 +166,11 @@ Triomino.prototype.collideCheck = function () {
 
 
 Triomino.prototype.mergeWithBlob = function(coords) {
-    for (var co of coords)
+    for (var co of coords) {
         bricks.add(co[0], co[1], co[2], this.image);
+        if (!util.contains(bricks.levelsWithCubes, co[0]))
+            bricks.levelsWithCubes.push(co[0]);
+    }
 };
 
 
@@ -181,6 +183,7 @@ Triomino.prototype.updateGridCoords = function() {
         [this.crntCoords[1][0], this.crntCoords[1][1], this.crntCoords[1][2]],
         [this.crntCoords[2][0], this.crntCoords[2][1], this.crntCoords[2][2]]
     ];
+
     checkCoords[0][0] -= Math.ceil(scaleDL);
     checkCoords[1][0] -= Math.ceil(scaleDL);
     checkCoords[2][0] -= Math.ceil(scaleDL);
