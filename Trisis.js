@@ -91,7 +91,7 @@ var loadTextures = function() {
 var updateSimulation = function(du) {
     checkKeyInputs();
     triomino.update(du);
-    bricks.update();
+    bricks.update(du);
 };
 
 var renderSimulation = function() {
