@@ -16,7 +16,6 @@ var vPosition, vTexCoord;
 var textureImgs = [];
 
 var triomino;
-var shadow;
 var grid;
 var bricks;
 
@@ -49,10 +48,6 @@ var setup = function() {
     triomino.build();
     triomino.cube.loadToGPU();
 
-    shadow = new Shadow();
-    shadow.init();
-    shadow.loadToGPU();
-
     grid = new Grid();
     grid.loadToGPU();
 
@@ -61,12 +56,12 @@ var setup = function() {
     bricks.cube.loadToGPU();
 
     // For debugging
-    for (var i = 0; i < 5; i++) {
-        for (var j = 0; j < 6; j++) {
-            bricks.add(0,i,j,textureImgs[0]);
-        }
-    }
-    bricks.levelsWithCubes.push(0);
+    // for (var i = 0; i < 5; i++) {
+    //     for (var j = 0; j < 6; j++) {
+    //         bricks.add(0,i,j,textureImgs[0]);
+    //     }
+    // }
+    // bricks.levelsWithCubes.push(0);
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
@@ -99,7 +94,6 @@ var updateSimulation = function(du) {
     checkKeyInputs();
     triomino.update(du);
     bricks.update(du);
-    shadow.update(triomino.crntCoords);
 };
 
 var renderSimulation = function() {
@@ -107,13 +101,12 @@ var renderSimulation = function() {
 
     var mv = lookAt(
         vec3(0.0, 0.0, zDist), //  eye
-        vec3(0.0, -3.5, 0.0),  //  at
+        vec3(0.0, -1.0, 0.0),  //  at
         vec3(0.0, 1.0, 0.0)    //  up
     );
     mv = mult( mv, rotate( parseFloat(spinX), [1, 0, 0] ) );
     mv = mult( mv, rotate( parseFloat(spinY), [0, 1, 0] ) );
-    
-    shadow.render(mv);
+
     triomino.render(mv);
     grid.render(mv);
     bricks.render(mv);
