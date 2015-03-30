@@ -48,12 +48,14 @@
 var checkKeyInputs = function() {
     var i, j, change;
 
-    if (util.inRange(util.abs(spinY), 0, 45) || util.inRange(util.abs(spinY), 315, 360)){
+    if (util.inRange(util.abs(spinY), 0, 45) || 
+        util.inRange(util.abs(spinY), 315, 360)){
         translDecisions = translDec.ver0;
         translGridChanges = translCh.ver0;
     }
 
-    else if (util.inRange(spinY, 45, 135) || util.inRange(spinY, -315, -225)) {
+    else if (util.inRange(spinY, 45, 135) || 
+        util.inRange(spinY, -315, -225)) {
         translDecisions = translDec.ver3;
         translGridChanges = translCh.ver3;
     }
@@ -63,7 +65,8 @@ var checkKeyInputs = function() {
         translGridChanges = translCh.ver2;
     }
 
-    else if (util.inRange(spinY, 225, 315) || util.inRange(spinY, -135,  -45)) {
+    else if (util.inRange(spinY, 225, 315) || 
+        util.inRange(spinY, -135,  -45)) {
         translDecisions = translDec.ver1;
         translGridChanges = translCh.ver1;
     }
@@ -75,33 +78,23 @@ var checkKeyInputs = function() {
         i = translDecisions[0][1];
         j = translDecisions[0][2];
         change = translDecisions[0][0];
-
         arrowPressIndex = 3;
 
         if (!availAxisTransl[i] ||
             !triomino.updateGridCoords()) return; 
         
-        crntCubeTransl[i] += change;
-        translUpdate[i][j] = true;
-        availAxisTransl[i] = false;
-
-        updateGridCoords = true;
+        updateTranslPerm(change, i, j);
     }
     if (keys[39]) { // right arrow
         i = translDecisions[2][1];
         j = translDecisions[2][2];
         change = translDecisions[2][0];
-
         arrowPressIndex = 1;
 
         if (!availAxisTransl[i] ||
             !triomino.updateGridCoords()) return; 
-            
-        crntCubeTransl[i] += change;
-        translUpdate[i][j] = true;
-        availAxisTransl[i] = false;
-
-        updateGridCoords = true;
+  
+        updateTranslPerm(change, i, j);
     }
 
     // z-translations    
@@ -109,106 +102,78 @@ var checkKeyInputs = function() {
         i = translDecisions[3][1];
         j = translDecisions[3][2];
         change = translDecisions[3][0];
-
         arrowPressIndex = 2;
 
         if (!availAxisTransl[i] ||
             !triomino.updateGridCoords()) return; 
-        
-        crntCubeTransl[i] += change;
-        translUpdate[i][j] = true;
-        availAxisTransl[i] = false;
 
-        updateGridCoords = true;
+        updateTranslPerm(change, i, j);
     }
     if (keys[40]) { // down arrow
         i = translDecisions[1][1];
         j = translDecisions[1][2];
         change = translDecisions[1][0];
-
         arrowPressIndex = 0;
 
         if (!availAxisTransl[i] ||
             !triomino.updateGridCoords()) return;
-        
-        crntCubeTransl[i] += change;
-        translUpdate[i][j] = true;
-        availAxisTransl[i] = false;
 
-        updateGridCoords = true;
+        updateTranslPerm(change, i, j);
     }
 
-    // Rotations of the current cube.
+    // Rotations.
     // x-axis
     if (keys[65]) { // a
         if (!availAxisRot[0]) return;            
-        
         crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[0] += 90;
-
         if (!triomino.checkRotations()) return;
 
-        rotationUpdate[0][0] = true;
-        availAxisRot[0] = false;
+        udateRotPerm(0, 0);
     }
     if (keys[90]) { // z
         if (!availAxisRot[0]) return;
-        
         crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[0] -= 90;
-
         if (!triomino.checkRotations()) return;
 
-        rotationUpdate[0][1] = true;
-        availAxisRot[0] = false;
+        updateRotPerm(0, 1);
     }
 
     //y-axis
     if (keys[83]) { // s
         if (!availAxisRot[1]) return;
-        
         crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[1] += 90;
-
         if (!triomino.checkRotations()) return;
 
-        rotationUpdate[1][0] = true;
-        availAxisRot[1] = false;
+        updateRotPerm(1, 0);
     }
     if (keys[88]) { // x
         if (!availAxisRot[1]) return;
-        
         crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[1] -= 90;
-
         if (!triomino.checkRotations()) return;
 
-        rotationUpdate[1][1] = true;
-        availAxisRot[1] = false;
+        updateRotPerm(1, 1);
     }
 
     // z-axis
     if (keys[68]) { // d
         if (!availAxisRot[2]) return;
-
         crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[2] += 90;
-
         if (!triomino.checkRotations()) return;
 
-        rotationUpdate[2][0] = true;
-        availAxisRot[2] = false;
+        updateRotPerm(2, 0);
     }
     if (keys[67]) { // c
         if (!availAxisRot[2]) return;
-
         crntCubeRotationBackup = crntCubeRotation.slice(0);
         crntCubeRotation[2] -= 90;
-
         if (!triomino.checkRotations()) return;
 
-        rotationUpdate[2][1] = true;
-        availAxisRot[2] = false;
+        updateRotPerm(2, 1);
     }
 
 
@@ -233,9 +198,19 @@ var checkKeyInputs = function() {
             triomino.DROP_UPDATE_STEPS += 5.0;
 };
 
+var updateTranslPerm = function(change, i, j) {
+    crntCubeTransl[i] += change;
+    translUpdate[i][j] = true;
+    availAxisTransl[i] = false;
+};
 
-function eatKey(keyCode) {
+var updateRotPerm = function(i, j) {
+    rotationUpdate[i][j] = true;
+    availAxisRot[i] = false;
+};
+
+var eatKey = function(keyCode) {
     var isDown = keys[keyCode];
     keys[keyCode] = false;
     return isDown;
-}
+};

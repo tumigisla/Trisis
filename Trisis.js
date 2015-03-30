@@ -15,28 +15,16 @@ var vPosition, vTexCoord;
 
 var textureImgs = [];
 
-var triomino; // global, for now.
+var triomino;
 var grid;
 var bricks;
 
-var crntCubeRotationBackup;
-var crntCubeRotation = [0, 0, 0];
-var rotationUpdate = [[false, false], [false, false], [false, false]];
-
-var crntCubeTransl = [0.0, 0.0];
-var translUpdate = [[false, false], [false, false]];
-
-var translDecisions = translDec.ver0;
-
-
-var availAxisTransl = [true, true],     // [x, z]
-    availAxisRot = [true, true, true];
-
-var translGridChanges = translCh.ver0;
+var crntCubeRotationBackup, crntCubeRotation, rotationUpdate,
+    crntCubeTransl, translUpdate, translDecisions,
+    availAxisTransl, availAxisRot, translGridChanges;
 
 // 0 = down, 1 = right, 2 = up, 3 = left
 var arrowPressIndex;
-
 
 var keys = [];
 
@@ -54,29 +42,15 @@ var setup = function() {
     gl.enable(gl.CULL_FACE);
     gl.cullFace(gl.BACK);
 
-    // Test cube
     triomino = new Triomino();
     triomino.build();
     triomino.cube.loadToGPU();
 
     grid = new Grid();
-    //grid.build();
     grid.loadToGPU();
 
     bricks = new Bricks();
     bricks.build();
-
-    // Regular shape init
-    /*
-    bricks.add(19, 3, 3, textureImgs[2]);
-    bricks.add(18, 3, 3, textureImgs[2]);
-    bricks.add(17, 3, 3, textureImgs[2]);
-    */
-
-    // L shape init
-    // bricks.add(3, 2, 2, textureImgs[0]);   
-    //bricks.add(5, 3, 0, textureImgs[0]);
-    //bricks.add(0, 4, 1, textureImgs[0]);
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
@@ -106,7 +80,6 @@ var loadTextures = function() {
 
 ///////////////////////////////////
 var updateSimulation = function(du) {
-    // update
     checkKeyInputs();
     triomino.update(du);
 };

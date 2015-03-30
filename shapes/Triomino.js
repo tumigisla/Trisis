@@ -8,7 +8,6 @@ function Triomino(descr) {
 Triomino.prototype.init = function() {
 
     this.LShape = util.coinFlip();
-    //this.LShape = true;
 
     this.rotations = [0.0, 0.0, 0.0];
     this.rotUpdateBuffers = [0.0, 0.0, 0.0];
@@ -17,7 +16,7 @@ Triomino.prototype.init = function() {
     this.translations = [0.0, 0.0]; 
     this.translUpdateBuffers = [0.0, 0.0];
 
-    this.isDropping = true;
+    this.isDropping = false;
     this.dropLevel = 0.0;
 
     this.image = this.LShape ? textureImgs[0] : textureImgs[1];
@@ -51,7 +50,7 @@ Triomino.prototype.init = function() {
     this.ROT_UPDATE_STEPS = 15;
     this.TRANSL_UPDATE_STEPS = 15;
     this.DROP_UPDATE_STEPS = 60;
-
+    this.START_DROPPING_CDOWN = 60;
 };
 
 Triomino.prototype.build = function() {
@@ -59,11 +58,15 @@ Triomino.prototype.build = function() {
 };
 
 Triomino.prototype.update = function(du) {
-    // Generalize this. Rotation and translation are doing
-    // exactly the same thing.
+
+    // Dropping delay when cube is initialized.
+    if (this.START_DROPPING_CDOWN > 0)
+        this.START_DROPPING_CDOWN -= du;
+    else
+        this.isDropping = true;
+
 
     // Rotation
-    
     for (var i = 0; i < this.rotUpdateBuffers.length; i++) {
         if (rotationUpdate[i][0]) { // increasing
             if (this.rotations[i] < crntCubeRotation[i])
@@ -109,9 +112,7 @@ Triomino.prototype.update = function(du) {
     }
 
     // Dropping
-
     var isColliding = this.collideCheck();
-
     var oldDropLevel = this.dropLevel;
 
     if (this.isDropping) {
@@ -124,6 +125,7 @@ Triomino.prototype.update = function(du) {
     
     this.collideCheck();
 };
+
 
 Triomino.prototype.collideCheck = function () {
     var scaleDL = this.dropLevel / -0.4;
