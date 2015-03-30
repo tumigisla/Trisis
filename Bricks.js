@@ -24,6 +24,8 @@ function Bricks(descr) {
         this[property] = descr[property];
 
     this.allBricks = [];
+
+    this.levelsWithCubes = [];
 }
 
 Bricks.prototype.cube = new Cube(
@@ -102,5 +104,21 @@ Bricks.prototype.check = function (y,x,z) {
     } else {
         // array
         return this.check(y[0], y[1], y[2]);
+    }
+};
+
+Bricks.prototype.levelFull = function(level) {
+    for (var j = 0; j < this.blob[level].length; j++) {
+        for (var k = 0; k < this.blob[level][j].length; k++) {
+            if (!this.blob[level][j][k]) return false;
+        }
+    }
+    return true;
+};
+
+Bricks.prototype.update = function() {
+    for (lvl of this.levelsWithCubes) {
+        if (this.levelFull(lvl)) 
+            console.log(lvl + " level full");
     }
 };
