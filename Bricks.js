@@ -2,7 +2,22 @@
 // ??
 /////////////////////////////////////////////////////////////////
 
+function Brick(descr) {
+    // descr must include:
+    //     image
+    //     y, x, z grid index
 
+    for(var property in descr)
+        this[property] = descr[property];
+
+    var gs = grid.gridSize;
+
+    this.translations = [
+        this.x * gs,
+        this.y * gs,
+        this.z * gs
+    ];
+}
 
 function Bricks(descr) {
     for(var property in descr)
@@ -71,53 +86,21 @@ Bricks.prototype.add = function (y,x,z,tex) {
 
 // input can be 3 indices or 3 arrays each with 3 indices
 Bricks.prototype.check = function (y,x,z) {
-    if (keys[89]) {
-        console.log( "--------------------------" );
-        console.log( "checking:", y, x, z);
+    if ( typeof y === "number" ) {
+        // num, num, num
+        if (this.blob[y] && this.blob[y][x] && this.blob[y][x][z])
+            return true;
+        else 
+            return false;
+    } else if ( x && z ) {
+        // array, array, array
+        var a = this.check(y[0], y[1], y[2]), 
+            b = this.check(x[0], x[1], x[2]), 
+            c = this.check(z[0], z[1], z[2]);
 
-        if ( typeof y === "number" ) {
-            console.log( "case 1" );
-
-            // num, num, num
-            if (this.blob[y] && this.blob[y][x] && this.blob[y][x][z]) {
-                console.log('HERE');
-                return true;
-            }
-            else 
-                return false;
-        } else if ( x && z ) {
-            console.log( "case 2" );
-            // array, array, array
-            var a = this.check(y[0], y[1], y[2]), 
-                b = this.check(x[0], x[1], x[2]), 
-                c = this.check(z[0], z[1], z[2]);
-
-            console.log(a, b, c);
-            console.log(a || b || c);
-
-            return a || b || c;
-        } else {
-            console.log( "case 3" );
-            // array
-            return this.check(y[0], y[1], y[2]);
-        }
+        return a || b || c;
     } else {
-        if ( typeof y === "number" ) {
-            // num, num, num
-            if (this.blob[y] && this.blob[y][x] && this.blob[y][x][z])
-                return true;
-            else 
-                return false;
-        } else if ( x && z ) {
-            // array, array, array
-            var a = this.check(y[0], y[1], y[2]), 
-                b = this.check(x[0], x[1], x[2]), 
-                c = this.check(z[0], z[1], z[2]);
-
-            return a || b || c;
-        } else {
-            // array
-            return this.check(y[0], y[1], y[2]);
-        }
+        // array
+        return this.check(y[0], y[1], y[2]);
     }
 };
