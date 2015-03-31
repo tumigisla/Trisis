@@ -319,7 +319,7 @@ Triomino.prototype.lShapeRot = function() {
     else if (
             (xZero && yOdd1 && zZero) || (xZero && yOdd2 && zOdd1) ||
             (xOdd1 && yOdd1 && zOdd2) || (xOdd1 && yOdd2 && zEven) ||
-            (xOdd1 && yOdd1 && zEven) || (xOdd1 && yOdd2 && zOdd2) ||
+            (xEven && yOdd1 && zEven) || (xEven && yOdd2 && zOdd2) ||
             (xOdd2 && yOdd1 && zOdd1) || (xOdd2 && yOdd2 && zZero)
         )
         newCoords = this.changeCoordsLShape([[0,1], [2,-1]], oldCoords); // i+1, k-1

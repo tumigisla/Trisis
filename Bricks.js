@@ -129,7 +129,7 @@ Bricks.prototype.levelEmpty = function(level) {
 Bricks.prototype.update = function(du) {
     for (lvl of this.levelsWithCubes) {
         if (this.levelFull(lvl)) 
-            console.log(lvl + " level full");
+           break;
     }
     this.maybeBumpDownBricks(du);
 };
@@ -168,7 +168,7 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
 };
 
 Bricks.prototype.clearLevel = function(level) {
-
+    console.log(level);
     score += 36;
     document.getElementById("scoreText").innerHTML = score;
 
@@ -192,7 +192,6 @@ Bricks.prototype.clearLevel = function(level) {
     for (var i = 0; i < this.levelsWithCubes.length; i++) {
         var aLevel = this.levelsWithCubes[i];
         if (aLevel > level && aLevel > 0) {
-            console.log(aLevel);
             // Drop all the bricks in the blob down by one.
             for (var j = 0; j < this.blob[aLevel].length; j++) {
                 for (var k = 0; k < this.blob[aLevel][j].length; k++) {
