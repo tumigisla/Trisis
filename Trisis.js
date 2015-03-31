@@ -57,17 +57,14 @@ var setup = function() {
 
     // For debugging
 
-     for (var i = 0; i < 5; i++) {
-         for (var j = 0; j < 6; j++) {
-             bricks.add(0,i,j,textureImgs[0]);
-         }
-     }for (var i = 0; i < 5; i++) {
-         for (var j = 0; j < 6; j++) {
-             bricks.add(1,i,j,textureImgs[0]);
-         }
-     }
-     bricks.levelsWithCubes.push(0);
-     bricks.levelsWithCubes.push(1);
+    // for (var i = 0; i < 5; i++)
+    //     for (var j = 0; j < 6; j++)
+    //         bricks.add(0,i,j,textureImgs[0]);
+    // for (var i = 0; i < 5; i++)
+    //     for (var j = 0; j < 6; j++)
+    //         bricks.add(1,i,j,textureImgs[0]);
+    // bricks.levelsWithCubes.push(0);
+    // bricks.levelsWithCubes.push(1);
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
@@ -99,6 +96,10 @@ var loadTextures = function() {
 var updateSimulation = function(du) {
     checkKeyInputs();
     triomino.update(du);
+
+    if (gameover)
+        return;
+
     bricks.update(du);
 };
 
