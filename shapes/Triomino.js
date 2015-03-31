@@ -151,6 +151,15 @@ Triomino.prototype.collideCheck = function () {
         checkCoords[0][0] += 1;
         checkCoords[1][0] += 1;
         checkCoords[2][0] += 1;
+
+        if (checkCoords[0][0] === 20
+             || checkCoords[1][0] === 20
+             || checkCoords[2][0] === 20) {
+            alert("Game over.");
+            gameover = true;
+            return;
+        };
+
         this.mergeWithBlob(checkCoords);
         this.init();
     }

@@ -82,6 +82,7 @@ var setup = function() {
      bricks.levelsWithCubes.push(0);
      bricks.levelsWithCubes.push(1);
     */
+
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
 
@@ -112,6 +113,10 @@ var loadTextures = function() {
 var updateSimulation = function(du) {
     checkKeyInputs();
     triomino.update(du);
+
+    if (gameover)
+        return;
+
     bricks.update(du);
 };
 
