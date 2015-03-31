@@ -168,8 +168,8 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
 };
 
 Bricks.prototype.clearLevel = function(level) {
-    
-    score += 10;
+
+    score += 36;
     document.getElementById("scoreText").innerHTML = score;
 
     // Empty the full level of the blob thing.

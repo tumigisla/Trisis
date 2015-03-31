@@ -138,7 +138,7 @@ Triomino.prototype.collideCheck = function () {
     var checkCoords = this.getCrntCoords();
 
     // check for floor hit
-    if (checkCoords[0][0] < 0, checkCoords[1][0] < 0, checkCoords[2][0] < 0) {
+    if (checkCoords[0][0] < 0 || checkCoords[1][0] < 0 || checkCoords[2][0] < 0) {
         while (checkCoords[0][0] < 0 || checkCoords[1][0] < 0 || checkCoords[2][0] < 0) {
             checkCoords[0][0] += 1;
             checkCoords[1][0] += 1;
@@ -334,7 +334,7 @@ Triomino.prototype.lShapeRot = function() {
             (xZero && yOdd1 && zEven) || (xZero && yOdd2 && zOdd2) ||
             (xOdd1 && yOdd1 && zOdd1) || (xOdd1 && yOdd2 && zZero) ||
             (xEven && yOdd1 && zZero) || (xEven && yOdd2 && zOdd1) ||
-            (xOdd1 && yOdd2 && zOdd1) || (xOdd2 && yOdd2 && zEven)
+            (xOdd2 && yOdd1 && zOdd2) || (xOdd2 && yOdd2 && zEven)
         )
         newCoords = this.changeCoordsLShape([[0,-1], [2,1]], oldCoords); // i-1, k+1
     else if (
