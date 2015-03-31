@@ -4,19 +4,13 @@ var paused = false, gameover = false;
 var update = function(dt) {
     if (eatKey(80)) { // P button
         paused = !paused;
-        if (blade.isSnipes)
-        	blade.dontCallThisFunctionIfYouWannaHaveFun();
-        else
-        	blade.bringTheSnipe();
     }
 
     if (eatKey(77)) { // M button
-    	if (!paused) {
-	    	if (blade.isSnipes)
-	        	blade.dontCallThisFunctionIfYouWannaHaveFun();
-	        else
-	        	blade.bringTheSnipe();
-	    }
+    	if (blade.isSnipes)
+        	blade.dontCallThisFunctionIfYouWannaHaveFun();
+        else
+        	blade.bringTheSnipe();
     }
 
     if (paused || gameover)

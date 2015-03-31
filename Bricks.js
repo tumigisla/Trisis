@@ -147,8 +147,6 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
         if (dumpTime > 0) { // bump down the current ones in steps
             for (var br of bricksToBump) {
                 br.translations[1] -= (0.4 / this.BUMP_DOWN_STEPS) * du;
-                var c = br.translations[1];
-                console.log(c); 
                 dumpTime -= du;
             }       
         }
