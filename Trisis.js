@@ -56,14 +56,22 @@ var setup = function() {
     bricks.cube.loadToGPU();
 
     // For debugging
-    /*
+
      for (var i = 0; i < 5; i++) {
          for (var j = 0; j < 6; j++) {
              bricks.add(0,i,j,textureImgs[0]);
          }
-     }for (var i = 0; i < 5; i++) {
+     }
+
+     for (var i = 0; i < 5; i++) {
          for (var j = 0; j < 6; j++) {
              bricks.add(1,i,j,textureImgs[0]);
+         }
+     }
+    
+     for (var i = 0; i < 5; i++) {
+         for (var j = 0; j < 6; j++) {
+             bricks.add(2,i,j,textureImgs[0]);
          }
      }
 
@@ -81,7 +89,8 @@ var setup = function() {
 
      bricks.levelsWithCubes.push(0);
      bricks.levelsWithCubes.push(1);
-    */
+     bricks.levelsWithCubes.push(2);
+    
 
     program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);

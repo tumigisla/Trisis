@@ -115,6 +115,7 @@ Bricks.prototype.levelFull = function(level) {
     }
     this.clearLevel(level);
     return true;
+
 };
 
 Bricks.prototype.levelEmpty = function(level) {
@@ -129,7 +130,7 @@ Bricks.prototype.levelEmpty = function(level) {
 Bricks.prototype.update = function(du) {
     for (lvl of this.levelsWithCubes) {
         if (this.levelFull(lvl)) 
-           break;
+            break;
     }
     this.maybeBumpDownBricks(du);
 };
@@ -146,7 +147,7 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
         if (dumpTime > 0) { // bump down the current ones in steps
             for (var br of bricksToBump) {
                 br.translations[1] -= (0.4 / this.BUMP_DOWN_STEPS) * du;
-                dumpTime -= du; 
+                dumpTime -= du;
             }       
         }
         else { // when these steps are finished, delete the old ones 
@@ -158,7 +159,11 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
                 this.allBricks.splice(index, 1);
             }
             for (var i = 0; i < bricksToReallyAdd.length; i++) {
-                this.allBricks.push(bricksToReallyAdd[i]);
+                var aBrick = bricksToReallyAdd[i];
+                if (this.blob[aBrick.y][aBrick.x][aBrick.z] &&
+                    !util.brickAlreadyThere(this.allBricks, aBrick))
+                    this.allBricks.push(aBrick);
+                //this.allBricks.push(bricksToReallyAdd[i]);
             }
             bricksToBump = [];
             bricksToReallyAdd = [];
@@ -168,7 +173,6 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
 };
 
 Bricks.prototype.clearLevel = function(level) {
-    console.log(level);
     score += 36;
     document.getElementById("scoreText").innerHTML = score;
 
@@ -212,14 +216,17 @@ Bricks.prototype.clearLevel = function(level) {
                 var aBrick = this.allBricks[j];
                 if (aBrick.y === aLevel) {
                     bumpDownBricks = true;
-                    bricksToBump.push(aBrick);
+                    if (!util.brickAlreadyThere(bricksToBump, aBrick))
+                        bricksToBump.push(aBrick);
                     var tmpBrick = aBrick;
-                    bricksToReallyAdd.push(new Brick({
-                        x : tmpBrick.x,
-                        y : tmpBrick.y - 1,
-                        z : tmpBrick.z,
-                        tex : tmpBrick.tex
-                    }))
+                    var newBrick = new Brick({
+                            x : tmpBrick.x,
+                            y : tmpBrick.y - 1,
+                            z : tmpBrick.z,
+                            tex : tmpBrick.tex
+                        });
+                    if (!util.brickAlreadyThere(bricksToReallyAdd, newBrick))
+                        bricksToReallyAdd.push(newBrick);
                 }
             }
         }

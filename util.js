@@ -15,6 +15,18 @@ var util = {
         return false;
     },
 
+    brickAlreadyThere : function(allBricks, br) {
+        for (var b of allBricks) {
+            if (
+                b.y === br.y &&
+                b.x === br.x && 
+                b.z === br.z
+            )
+                return true;
+        }
+        return false;
+    },
+
     scale4 : function(x, y, z) {
         if ( Array.isArray(x) && x.length == 3 ) {
             z = x[2];
@@ -75,6 +87,5 @@ var util = {
         if (value < lowBound) return lowBound;
         if (value > highBound) return highBound;
         return value;
-    },
-
+    }
 };
