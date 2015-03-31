@@ -25,7 +25,9 @@
      window.addEventListener("keydown", function(e){
         keys[e.keyCode] = true; 
 
-        if (e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40)
+        if (e.keyCode === 37 || e.keyCode === 38 || // arrow keys
+            e.keyCode === 39 || e.keyCode === 40 ||
+            e.keyCode === 32 )// space bar
             e.preventDefault();
      });
 
@@ -175,17 +177,6 @@ var checkKeyInputs = function() {
 
         updateRotPerm(2, 1);
     }
-
-
-    // Drop
-    if (eatKey(76)) // L button
-        triomino.isDropping = !triomino.isDropping;
-
-    // Init dropping
-    if (eatKey(73)) { // i button
-        triomino.dropLevel = 0.0;
-        triomino.isDropping = false;
-    }    
 
     // Faster dropping
     if (keys[32]) {

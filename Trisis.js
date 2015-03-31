@@ -56,7 +56,7 @@ var setup = function() {
     bricks.cube.loadToGPU();
 
     // For debugging
-
+    /*
      for (var i = 0; i < 5; i++) {
          for (var j = 0; j < 6; j++) {
              bricks.add(0,i,j,textureImgs[0]);
@@ -68,13 +68,13 @@ var setup = function() {
              bricks.add(1,i,j,textureImgs[0]);
          }
      }
-    
+    /*
      for (var i = 0; i < 5; i++) {
          for (var j = 0; j < 6; j++) {
              bricks.add(2,i,j,textureImgs[0]);
          }
      }
-
+    */
      bricks.add(0,5,5,textureImgs[0]);
      bricks.add(1,5,5,textureImgs[0]);
      bricks.add(0,5,4,textureImgs[0]);
@@ -108,6 +108,8 @@ var setup = function() {
     gl.uniformMatrix4fv(proLoc, false, flatten(proj));
 
     addEventListeners();
+
+    blade.wesley.play();
 };
 
 var loadTextures = function() {

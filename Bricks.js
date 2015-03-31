@@ -138,7 +138,7 @@ Bricks.prototype.update = function(du) {
 var bumpDownBricks = false;
 var bricksToBump = [];
 var bricksToReallyAdd = [];
-var dumpTime = 60;
+var dumpTime = 120;
 
 Bricks.prototype.BUMP_DOWN_STEPS = 60;
 
@@ -147,6 +147,8 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
         if (dumpTime > 0) { // bump down the current ones in steps
             for (var br of bricksToBump) {
                 br.translations[1] -= (0.4 / this.BUMP_DOWN_STEPS) * du;
+                var c = br.translations[1];
+                console.log(c); 
                 dumpTime -= du;
             }       
         }
@@ -163,7 +165,6 @@ Bricks.prototype.maybeBumpDownBricks = function(du) {
                 if (this.blob[aBrick.y][aBrick.x][aBrick.z] &&
                     !util.brickAlreadyThere(this.allBricks, aBrick))
                     this.allBricks.push(aBrick);
-                //this.allBricks.push(bricksToReallyAdd[i]);
             }
             bricksToBump = [];
             bricksToReallyAdd = [];
