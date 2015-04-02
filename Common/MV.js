@@ -560,6 +560,7 @@ function normalize( u, excludeLastComponent )
     var len = length( u );
 
     if ( !isFinite(len) ) {
+        alert("Error in core library.\nnormalize: vector " + u + " has zero length");
         debugger;
         throw "normalize: vector " + u + " has zero length";
     }
